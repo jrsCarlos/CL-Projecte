@@ -149,7 +149,7 @@ endif
 #  ... the antlr4 runtime files
 CPPFLAGS += -I$(INCDIR)
 # ... select the C++ version desired,
-CPPFLAGS += --std=c++17
+CPPFLAGS += -fPIE --std=c++17
 # ... enable various warnings,
 CPPFLAGS += -Wall -Wextra
 # ... but disable these ones,

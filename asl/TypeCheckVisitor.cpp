@@ -269,12 +269,19 @@ std::any TypeCheckVisitor::visitRelational(AslParser::RelationalContext *ctx) {
 
 std::any TypeCheckVisitor::visitValue(AslParser::ValueContext *ctx) {
   DEBUG_ENTER();
-  visit(ctx->expr(0));
-  TypesMgr::TypeId t1 = getTypeDecor(ctx->expr(0));
-
-  visit(ctx->left_expr(0));
-  TypesMgr::TypeId t = Types.createIntegerTy();
-  putTypeDecor(ctx, t);
+  TypesMgr::TypeId t;
+  if (ctx->INTVAL()) {
+    t = Types.createIntegerTy();
+    putTypeDecor(ctx, t);
+  }
+  else if (ctx->FLOATVAL()) {
+    t = Types.createFloatTy();
+    putTypeDecor(ctx, t);
+  }
+  else if (ctx->CHARVAL()) {
+    t = Types.createCharacterTy();
+    putTypeDecor(ctx, t);
+  }
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();
   return 0;
