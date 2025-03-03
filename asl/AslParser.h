@@ -16,8 +16,8 @@ public:
     GT = 8, GE = 9, LT = 10, LE = 11, PLUS = 12, MINUS = 13, DIV = 14, MUL = 15, 
     VAR = 16, INT = 17, FLOAT = 18, BOOL = 19, CHAR = 20, IF = 21, THEN = 22, 
     ELSE = 23, ENDIF = 24, FUNC = 25, ENDFUNC = 26, READ = 27, WRITE = 28, 
-    AND = 29, OR = 30, NOT = 31, ID = 32, INTVAL = 33, FLOATVAL = 34, CHARVAL = 35, 
-    STRING = 36, COMMENT = 37, WS = 38
+    AND = 29, OR = 30, NOT = 31, ID = 32, INTVAL = 33, BOOLVAL = 34, FLOATVAL = 35, 
+    CHARVAL = 36, STRING = 37, COMMENT = 38, WS = 39
   };
 
   enum {
@@ -319,6 +319,7 @@ public:
     antlr4::tree::TerminalNode *INTVAL();
     antlr4::tree::TerminalNode *FLOATVAL();
     antlr4::tree::TerminalNode *CHARVAL();
+    antlr4::tree::TerminalNode *BOOLVAL();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };

@@ -85,6 +85,7 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
         | INTVAL                                     # value
         | FLOATVAL                                   # value
         | CHARVAL                                    # value
+        | BOOLVAL                                    # value
         | ident                                      # exprIdent
         | '(' expr ')'                               # parent
         ;
@@ -138,6 +139,7 @@ ID        : ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 
 // VALUE TOKENS
 INTVAL    : ('0'..'9')+ ;
+BOOLVAL   : ('true'|'false');
 FLOATVAL  : ('0'..'9')+ '.' ('0'..'9')+;
 CHARVAL   : '\'' ( ESC_SEQ | ~('\\'|'\'') ) '\'' ;
 

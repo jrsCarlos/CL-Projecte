@@ -1,4 +1,7 @@
 # =================================================
+#	@(#)makefile	1.3		AKK/ACT		20170507
+#	@(#)makefile	1.2		AKK/ACT		20170329
+# =================================================
 #    This makefile assumes all files in this
 #  directory belong to the one and only program.
 # It also assumes you only have one grammar file.
@@ -75,7 +78,7 @@ ANTLR4FLAGS += -o $(GENDIR)
 endif
 
 # The root directory of your antlr4 runtime is ...
-ANTLR_ROOT := /home/carlos/CL-Projecte/cl/runtime
+ANTLR_ROOT := /assig/$(USER)/cl/runtime
 #ANTLR_ROOT := $(HOME)/assig/cl/runtime
 #ANTLR_ROOT := /usr
 #ANTLR_ROOT := /usr/local
@@ -149,7 +152,7 @@ endif
 #  ... the antlr4 runtime files
 CPPFLAGS += -I$(INCDIR)
 # ... select the C++ version desired,
-CPPFLAGS += -fPIE --std=c++17
+CPPFLAGS += --std=c++17
 # ... enable various warnings,
 CPPFLAGS += -Wall -Wextra
 # ... but disable these ones,
