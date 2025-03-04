@@ -56,57 +56,60 @@ void aslParserInitialize() {
       "statement", "left_expr", "expr", "ident"
     },
     std::vector<std::string>{
-      "", "'('", "')'", "':'", "';'", "'='", "'=='", "'!='", "'>'", "'>='", 
-      "'<'", "'<='", "'+'", "'-'", "'/'", "'*'", "'var'", "'int'", "'float'", 
-      "'bool'", "'char'", "'if'", "'then'", "'else'", "'endif'", "'func'", 
-      "'endfunc'", "'read'", "'write'", "'and'", "'or'", "'not'"
+      "", "'('", "')'", "','", "':'", "';'", "'='", "'=='", "'!='", "'>'", 
+      "'>='", "'<'", "'<='", "'+'", "'-'", "'/'", "'*'", "'var'", "'int'", 
+      "'float'", "'bool'", "'char'", "'if'", "'then'", "'else'", "'endif'", 
+      "'func'", "'endfunc'", "'read'", "'write'", "'and'", "'or'", "'not'"
     },
     std::vector<std::string>{
-      "", "", "", "", "", "ASSIGN", "EQUAL", "NE", "GT", "GE", "LT", "LE", 
-      "PLUS", "MINUS", "DIV", "MUL", "VAR", "INT", "FLOAT", "BOOL", "CHAR", 
-      "IF", "THEN", "ELSE", "ENDIF", "FUNC", "ENDFUNC", "READ", "WRITE", 
-      "AND", "OR", "NOT", "ID", "INTVAL", "BOOLVAL", "FLOATVAL", "CHARVAL", 
-      "STRING", "COMMENT", "WS"
+      "", "", "", "", "", "", "ASSIGN", "EQUAL", "NE", "GT", "GE", "LT", 
+      "LE", "PLUS", "MINUS", "DIV", "MUL", "VAR", "INT", "FLOAT", "BOOL", 
+      "CHAR", "IF", "THEN", "ELSE", "ENDIF", "FUNC", "ENDFUNC", "READ", 
+      "WRITE", "AND", "OR", "NOT", "INTVAL", "BOOLVAL", "FLOATVAL", "CHARVAL", 
+      "ID", "STRING", "COMMENT", "WS"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,39,122,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,40,129,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,1,0,4,0,22,8,0,11,0,12,0,23,1,0,1,0,1,1,1,1,1,1,
-  	1,1,1,1,1,1,1,1,1,1,1,2,5,2,37,8,2,10,2,12,2,40,9,2,1,3,1,3,1,3,1,3,1,
-  	3,1,4,1,4,1,5,5,5,50,8,5,10,5,12,5,53,9,5,1,6,1,6,1,6,1,6,1,6,1,6,1,6,
-  	1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,
-  	6,1,6,1,6,3,6,82,8,6,1,7,1,7,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,
-  	1,8,1,8,3,8,98,8,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,
-  	8,1,8,1,8,5,8,115,8,8,10,8,12,8,118,9,8,1,9,1,9,1,9,0,1,16,10,0,2,4,6,
-  	8,10,12,14,16,18,0,5,1,0,17,20,2,0,12,13,31,31,1,0,14,15,1,0,12,13,1,
-  	0,6,11,130,0,21,1,0,0,0,2,27,1,0,0,0,4,38,1,0,0,0,6,41,1,0,0,0,8,46,1,
-  	0,0,0,10,51,1,0,0,0,12,81,1,0,0,0,14,83,1,0,0,0,16,97,1,0,0,0,18,119,
-  	1,0,0,0,20,22,3,2,1,0,21,20,1,0,0,0,22,23,1,0,0,0,23,21,1,0,0,0,23,24,
-  	1,0,0,0,24,25,1,0,0,0,25,26,5,0,0,1,26,1,1,0,0,0,27,28,5,25,0,0,28,29,
-  	5,32,0,0,29,30,5,1,0,0,30,31,5,2,0,0,31,32,3,4,2,0,32,33,3,10,5,0,33,
-  	34,5,26,0,0,34,3,1,0,0,0,35,37,3,6,3,0,36,35,1,0,0,0,37,40,1,0,0,0,38,
-  	36,1,0,0,0,38,39,1,0,0,0,39,5,1,0,0,0,40,38,1,0,0,0,41,42,5,16,0,0,42,
-  	43,5,32,0,0,43,44,5,3,0,0,44,45,3,8,4,0,45,7,1,0,0,0,46,47,7,0,0,0,47,
-  	9,1,0,0,0,48,50,3,12,6,0,49,48,1,0,0,0,50,53,1,0,0,0,51,49,1,0,0,0,51,
-  	52,1,0,0,0,52,11,1,0,0,0,53,51,1,0,0,0,54,55,3,14,7,0,55,56,5,5,0,0,56,
-  	57,3,16,8,0,57,58,5,4,0,0,58,82,1,0,0,0,59,60,5,21,0,0,60,61,3,16,8,0,
-  	61,62,5,22,0,0,62,63,3,10,5,0,63,64,5,24,0,0,64,82,1,0,0,0,65,66,3,18,
-  	9,0,66,67,5,1,0,0,67,68,5,2,0,0,68,69,5,4,0,0,69,82,1,0,0,0,70,71,5,27,
-  	0,0,71,72,3,14,7,0,72,73,5,4,0,0,73,82,1,0,0,0,74,75,5,28,0,0,75,76,3,
-  	16,8,0,76,77,5,4,0,0,77,82,1,0,0,0,78,79,5,28,0,0,79,80,5,37,0,0,80,82,
-  	5,4,0,0,81,54,1,0,0,0,81,59,1,0,0,0,81,65,1,0,0,0,81,70,1,0,0,0,81,74,
-  	1,0,0,0,81,78,1,0,0,0,82,13,1,0,0,0,83,84,3,18,9,0,84,15,1,0,0,0,85,86,
-  	6,8,-1,0,86,87,7,1,0,0,87,98,3,16,8,12,88,98,5,33,0,0,89,98,5,35,0,0,
-  	90,98,5,36,0,0,91,98,5,34,0,0,92,98,3,18,9,0,93,94,5,1,0,0,94,95,3,16,
-  	8,0,95,96,5,2,0,0,96,98,1,0,0,0,97,85,1,0,0,0,97,88,1,0,0,0,97,89,1,0,
-  	0,0,97,90,1,0,0,0,97,91,1,0,0,0,97,92,1,0,0,0,97,93,1,0,0,0,98,116,1,
-  	0,0,0,99,100,10,11,0,0,100,101,7,2,0,0,101,115,3,16,8,12,102,103,10,10,
-  	0,0,103,104,7,3,0,0,104,115,3,16,8,11,105,106,10,9,0,0,106,107,7,4,0,
-  	0,107,115,3,16,8,10,108,109,10,8,0,0,109,110,5,29,0,0,110,115,3,16,8,
-  	9,111,112,10,7,0,0,112,113,5,30,0,0,113,115,3,16,8,8,114,99,1,0,0,0,114,
-  	102,1,0,0,0,114,105,1,0,0,0,114,108,1,0,0,0,114,111,1,0,0,0,115,118,1,
-  	0,0,0,116,114,1,0,0,0,116,117,1,0,0,0,117,17,1,0,0,0,118,116,1,0,0,0,
-  	119,120,5,32,0,0,120,19,1,0,0,0,7,23,38,51,81,97,114,116
+  	1,1,1,1,1,1,1,1,1,1,1,2,5,2,37,8,2,10,2,12,2,40,9,2,1,3,1,3,1,3,1,3,5,
+  	3,46,8,3,10,3,12,3,49,9,3,1,3,1,3,1,3,1,4,1,4,1,5,5,5,57,8,5,10,5,12,
+  	5,60,9,5,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,
+  	1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,3,6,89,8,6,1,7,1,7,1,
+  	8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,3,8,105,8,8,1,8,1,8,1,8,
+  	1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,5,8,122,8,8,10,8,12,8,
+  	125,9,8,1,9,1,9,1,9,0,1,16,10,0,2,4,6,8,10,12,14,16,18,0,5,1,0,18,21,
+  	2,0,13,14,32,32,1,0,15,16,1,0,13,14,1,0,7,12,138,0,21,1,0,0,0,2,27,1,
+  	0,0,0,4,38,1,0,0,0,6,41,1,0,0,0,8,53,1,0,0,0,10,58,1,0,0,0,12,88,1,0,
+  	0,0,14,90,1,0,0,0,16,104,1,0,0,0,18,126,1,0,0,0,20,22,3,2,1,0,21,20,1,
+  	0,0,0,22,23,1,0,0,0,23,21,1,0,0,0,23,24,1,0,0,0,24,25,1,0,0,0,25,26,5,
+  	0,0,1,26,1,1,0,0,0,27,28,5,26,0,0,28,29,5,37,0,0,29,30,5,1,0,0,30,31,
+  	5,2,0,0,31,32,3,4,2,0,32,33,3,10,5,0,33,34,5,27,0,0,34,3,1,0,0,0,35,37,
+  	3,6,3,0,36,35,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,38,39,1,0,0,0,39,5,
+  	1,0,0,0,40,38,1,0,0,0,41,42,5,17,0,0,42,47,5,37,0,0,43,44,5,3,0,0,44,
+  	46,5,37,0,0,45,43,1,0,0,0,46,49,1,0,0,0,47,45,1,0,0,0,47,48,1,0,0,0,48,
+  	50,1,0,0,0,49,47,1,0,0,0,50,51,5,4,0,0,51,52,3,8,4,0,52,7,1,0,0,0,53,
+  	54,7,0,0,0,54,9,1,0,0,0,55,57,3,12,6,0,56,55,1,0,0,0,57,60,1,0,0,0,58,
+  	56,1,0,0,0,58,59,1,0,0,0,59,11,1,0,0,0,60,58,1,0,0,0,61,62,3,14,7,0,62,
+  	63,5,6,0,0,63,64,3,16,8,0,64,65,5,5,0,0,65,89,1,0,0,0,66,67,5,22,0,0,
+  	67,68,3,16,8,0,68,69,5,23,0,0,69,70,3,10,5,0,70,71,5,25,0,0,71,89,1,0,
+  	0,0,72,73,3,18,9,0,73,74,5,1,0,0,74,75,5,2,0,0,75,76,5,5,0,0,76,89,1,
+  	0,0,0,77,78,5,28,0,0,78,79,3,14,7,0,79,80,5,5,0,0,80,89,1,0,0,0,81,82,
+  	5,29,0,0,82,83,3,16,8,0,83,84,5,5,0,0,84,89,1,0,0,0,85,86,5,29,0,0,86,
+  	87,5,38,0,0,87,89,5,5,0,0,88,61,1,0,0,0,88,66,1,0,0,0,88,72,1,0,0,0,88,
+  	77,1,0,0,0,88,81,1,0,0,0,88,85,1,0,0,0,89,13,1,0,0,0,90,91,3,18,9,0,91,
+  	15,1,0,0,0,92,93,6,8,-1,0,93,94,7,1,0,0,94,105,3,16,8,12,95,105,5,33,
+  	0,0,96,105,5,35,0,0,97,105,5,36,0,0,98,105,5,34,0,0,99,105,3,18,9,0,100,
+  	101,5,1,0,0,101,102,3,16,8,0,102,103,5,2,0,0,103,105,1,0,0,0,104,92,1,
+  	0,0,0,104,95,1,0,0,0,104,96,1,0,0,0,104,97,1,0,0,0,104,98,1,0,0,0,104,
+  	99,1,0,0,0,104,100,1,0,0,0,105,123,1,0,0,0,106,107,10,11,0,0,107,108,
+  	7,2,0,0,108,122,3,16,8,12,109,110,10,10,0,0,110,111,7,3,0,0,111,122,3,
+  	16,8,11,112,113,10,9,0,0,113,114,7,4,0,0,114,122,3,16,8,10,115,116,10,
+  	8,0,0,116,117,5,30,0,0,117,122,3,16,8,9,118,119,10,7,0,0,119,120,5,31,
+  	0,0,120,122,3,16,8,8,121,106,1,0,0,0,121,109,1,0,0,0,121,112,1,0,0,0,
+  	121,115,1,0,0,0,121,118,1,0,0,0,122,125,1,0,0,0,123,121,1,0,0,0,123,124,
+  	1,0,0,0,124,17,1,0,0,0,125,123,1,0,0,0,126,127,5,37,0,0,127,19,1,0,0,
+  	0,8,23,38,47,58,88,104,121,123
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -372,8 +375,12 @@ tree::TerminalNode* AslParser::Variable_declContext::VAR() {
   return getToken(AslParser::VAR, 0);
 }
 
-tree::TerminalNode* AslParser::Variable_declContext::ID() {
-  return getToken(AslParser::ID, 0);
+std::vector<tree::TerminalNode *> AslParser::Variable_declContext::ID() {
+  return getTokens(AslParser::ID);
+}
+
+tree::TerminalNode* AslParser::Variable_declContext::ID(size_t i) {
+  return getToken(AslParser::ID, i);
 }
 
 AslParser::TypeContext* AslParser::Variable_declContext::type() {
@@ -396,6 +403,7 @@ std::any AslParser::Variable_declContext::accept(tree::ParseTreeVisitor *visitor
 AslParser::Variable_declContext* AslParser::variable_decl() {
   Variable_declContext *_localctx = _tracker.createInstance<Variable_declContext>(_ctx, getState());
   enterRule(_localctx, 6, AslParser::RuleVariable_decl);
+  size_t _la = 0;
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -410,9 +418,21 @@ AslParser::Variable_declContext* AslParser::variable_decl() {
     match(AslParser::VAR);
     setState(42);
     match(AslParser::ID);
-    setState(43);
-    match(AslParser::T__2);
-    setState(44);
+    setState(47);
+    _errHandler->sync(this);
+    _la = _input->LA(1);
+    while (_la == AslParser::T__2) {
+      setState(43);
+      match(AslParser::T__2);
+      setState(44);
+      match(AslParser::ID);
+      setState(49);
+      _errHandler->sync(this);
+      _la = _input->LA(1);
+    }
+    setState(50);
+    match(AslParser::T__3);
+    setState(51);
     type();
    
   }
@@ -474,10 +494,10 @@ AslParser::TypeContext* AslParser::type() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(46);
+    setState(53);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 1966080) != 0))) {
+      ((1ULL << _la) & 3932160) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -536,14 +556,14 @@ AslParser::StatementsContext* AslParser::statements() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(51);
+    setState(58);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 4699717632) != 0)) {
-      setState(48);
+      ((1ULL << _la) & 138248454144) != 0)) {
+      setState(55);
       statement();
-      setState(53);
+      setState(60);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -711,35 +731,35 @@ AslParser::StatementContext* AslParser::statement() {
     exitRule();
   });
   try {
-    setState(81);
+    setState(88);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
     case 1: {
       _localctx = _tracker.createInstance<AslParser::AssignStmtContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(54);
+      setState(61);
       left_expr();
-      setState(55);
+      setState(62);
       match(AslParser::ASSIGN);
-      setState(56);
+      setState(63);
       expr(0);
-      setState(57);
-      match(AslParser::T__3);
+      setState(64);
+      match(AslParser::T__4);
       break;
     }
 
     case 2: {
       _localctx = _tracker.createInstance<AslParser::IfStmtContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(59);
+      setState(66);
       match(AslParser::IF);
-      setState(60);
+      setState(67);
       expr(0);
-      setState(61);
+      setState(68);
       match(AslParser::THEN);
-      setState(62);
+      setState(69);
       statements();
-      setState(63);
+      setState(70);
       match(AslParser::ENDIF);
       break;
     }
@@ -747,50 +767,50 @@ AslParser::StatementContext* AslParser::statement() {
     case 3: {
       _localctx = _tracker.createInstance<AslParser::ProcCallContext>(_localctx);
       enterOuterAlt(_localctx, 3);
-      setState(65);
+      setState(72);
       ident();
-      setState(66);
+      setState(73);
       match(AslParser::T__0);
-      setState(67);
+      setState(74);
       match(AslParser::T__1);
-      setState(68);
-      match(AslParser::T__3);
+      setState(75);
+      match(AslParser::T__4);
       break;
     }
 
     case 4: {
       _localctx = _tracker.createInstance<AslParser::ReadStmtContext>(_localctx);
       enterOuterAlt(_localctx, 4);
-      setState(70);
+      setState(77);
       match(AslParser::READ);
-      setState(71);
+      setState(78);
       left_expr();
-      setState(72);
-      match(AslParser::T__3);
+      setState(79);
+      match(AslParser::T__4);
       break;
     }
 
     case 5: {
       _localctx = _tracker.createInstance<AslParser::WriteExprContext>(_localctx);
       enterOuterAlt(_localctx, 5);
-      setState(74);
+      setState(81);
       match(AslParser::WRITE);
-      setState(75);
+      setState(82);
       expr(0);
-      setState(76);
-      match(AslParser::T__3);
+      setState(83);
+      match(AslParser::T__4);
       break;
     }
 
     case 6: {
       _localctx = _tracker.createInstance<AslParser::WriteStringContext>(_localctx);
       enterOuterAlt(_localctx, 6);
-      setState(78);
+      setState(85);
       match(AslParser::WRITE);
-      setState(79);
+      setState(86);
       match(AslParser::STRING);
-      setState(80);
-      match(AslParser::T__3);
+      setState(87);
+      match(AslParser::T__4);
       break;
     }
 
@@ -844,7 +864,7 @@ AslParser::Left_exprContext* AslParser::left_expr() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(83);
+    setState(90);
     ident();
    
   }
@@ -1087,7 +1107,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(97);
+    setState(104);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case AslParser::PLUS:
@@ -1097,18 +1117,18 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _ctx = _localctx;
         previousContext = _localctx;
 
-        setState(86);
+        setState(93);
         antlrcpp::downCast<UnaryContext *>(_localctx)->op = _input->LT(1);
         _la = _input->LA(1);
         if (!((((_la & ~ 0x3fULL) == 0) &&
-          ((1ULL << _la) & 2147495936) != 0))) {
+          ((1ULL << _la) & 4294991872) != 0))) {
           antlrcpp::downCast<UnaryContext *>(_localctx)->op = _errHandler->recoverInline(this);
         }
         else {
           _errHandler->reportMatch(this);
           consume();
         }
-        setState(87);
+        setState(94);
         expr(12);
         break;
       }
@@ -1117,7 +1137,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _localctx = _tracker.createInstance<ValueContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(88);
+        setState(95);
         match(AslParser::INTVAL);
         break;
       }
@@ -1126,7 +1146,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _localctx = _tracker.createInstance<ValueContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(89);
+        setState(96);
         match(AslParser::FLOATVAL);
         break;
       }
@@ -1135,7 +1155,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _localctx = _tracker.createInstance<ValueContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(90);
+        setState(97);
         match(AslParser::CHARVAL);
         break;
       }
@@ -1144,7 +1164,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _localctx = _tracker.createInstance<ValueContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(91);
+        setState(98);
         match(AslParser::BOOLVAL);
         break;
       }
@@ -1153,7 +1173,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _localctx = _tracker.createInstance<ExprIdentContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(92);
+        setState(99);
         ident();
         break;
       }
@@ -1162,11 +1182,11 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
         _localctx = _tracker.createInstance<ParentContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(93);
+        setState(100);
         match(AslParser::T__0);
-        setState(94);
+        setState(101);
         expr(0);
-        setState(95);
+        setState(102);
         match(AslParser::T__1);
         break;
       }
@@ -1175,25 +1195,25 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
       throw NoViableAltException(this);
     }
     _ctx->stop = _input->LT(-1);
-    setState(116);
+    setState(123);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(114);
+        setState(121);
         _errHandler->sync(this);
-        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
+        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx)) {
         case 1: {
           auto newContext = _tracker.createInstance<ArithmeticContext>(_tracker.createInstance<ExprContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpr);
-          setState(99);
+          setState(106);
 
           if (!(precpred(_ctx, 11))) throw FailedPredicateException(this, "precpred(_ctx, 11)");
-          setState(100);
+          setState(107);
           antlrcpp::downCast<ArithmeticContext *>(_localctx)->op = _input->LT(1);
           _la = _input->LA(1);
           if (!(_la == AslParser::DIV
@@ -1205,7 +1225,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
             _errHandler->reportMatch(this);
             consume();
           }
-          setState(101);
+          setState(108);
           expr(12);
           break;
         }
@@ -1214,10 +1234,10 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
           auto newContext = _tracker.createInstance<ArithmeticContext>(_tracker.createInstance<ExprContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpr);
-          setState(102);
+          setState(109);
 
           if (!(precpred(_ctx, 10))) throw FailedPredicateException(this, "precpred(_ctx, 10)");
-          setState(103);
+          setState(110);
           antlrcpp::downCast<ArithmeticContext *>(_localctx)->op = _input->LT(1);
           _la = _input->LA(1);
           if (!(_la == AslParser::PLUS
@@ -1229,7 +1249,7 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
             _errHandler->reportMatch(this);
             consume();
           }
-          setState(104);
+          setState(111);
           expr(11);
           break;
         }
@@ -1238,21 +1258,21 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
           auto newContext = _tracker.createInstance<RelationalContext>(_tracker.createInstance<ExprContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpr);
-          setState(105);
+          setState(112);
 
           if (!(precpred(_ctx, 9))) throw FailedPredicateException(this, "precpred(_ctx, 9)");
-          setState(106);
+          setState(113);
           antlrcpp::downCast<RelationalContext *>(_localctx)->op = _input->LT(1);
           _la = _input->LA(1);
           if (!((((_la & ~ 0x3fULL) == 0) &&
-            ((1ULL << _la) & 4032) != 0))) {
+            ((1ULL << _la) & 8064) != 0))) {
             antlrcpp::downCast<RelationalContext *>(_localctx)->op = _errHandler->recoverInline(this);
           }
           else {
             _errHandler->reportMatch(this);
             consume();
           }
-          setState(107);
+          setState(114);
           expr(10);
           break;
         }
@@ -1261,12 +1281,12 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
           auto newContext = _tracker.createInstance<LogicalContext>(_tracker.createInstance<ExprContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpr);
-          setState(108);
+          setState(115);
 
           if (!(precpred(_ctx, 8))) throw FailedPredicateException(this, "precpred(_ctx, 8)");
-          setState(109);
+          setState(116);
           antlrcpp::downCast<LogicalContext *>(_localctx)->op = match(AslParser::AND);
-          setState(110);
+          setState(117);
           expr(9);
           break;
         }
@@ -1275,12 +1295,12 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
           auto newContext = _tracker.createInstance<LogicalContext>(_tracker.createInstance<ExprContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpr);
-          setState(111);
+          setState(118);
 
           if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
-          setState(112);
+          setState(119);
           antlrcpp::downCast<LogicalContext *>(_localctx)->op = match(AslParser::OR);
-          setState(113);
+          setState(120);
           expr(8);
           break;
         }
@@ -1289,9 +1309,9 @@ AslParser::ExprContext* AslParser::expr(int precedence) {
           break;
         } 
       }
-      setState(118);
+      setState(125);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
     }
   }
   catch (RecognitionException &e) {
@@ -1338,7 +1358,7 @@ AslParser::IdentContext* AslParser::ident() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(119);
+    setState(126);
     match(AslParser::ID);
    
   }

@@ -106,14 +106,20 @@ std::any SymbolsVisitor::visitDeclarations(AslParser::DeclarationsContext *ctx) 
 std::any SymbolsVisitor::visitVariable_decl(AslParser::Variable_declContext *ctx) {
   DEBUG_ENTER();
   visit(ctx->type());
-  std::string ident = ctx->ID()->getText();
-  if (Symbols.findInCurrentScope(ident)) {
-    Errors.declaredIdent(ctx->ID());
+
+  // De esta manera no hace falta iterar sobre todos los hijos
+  // de ctx, de esta forma accedemos solo a aquella que sean ID().
+  for (auto id : ctx->ID()) {
+    std::string ident = id->getText();
+    if (Symbols.findInCurrentScope(ident)) {
+      Errors.declaredIdent(id);
+    }
+    else {
+      TypesMgr::TypeId t1 = getTypeDecor(ctx->type());
+      Symbols.addLocalVar(ident, t1);
+    }
   }
-  else {
-    TypesMgr::TypeId t1 = getTypeDecor(ctx->type());
-    Symbols.addLocalVar(ident, t1);
-  }
+
   DEBUG_EXIT();
   return 0;
 }

@@ -43,7 +43,7 @@ function : FUNC ID '(' ')' declarations statements ENDFUNC
 declarations : (variable_decl)*
              ;
 
-variable_decl : VAR ID ':' type
+variable_decl : VAR ID (',' ID)* ':' type
               ;
 
 type    : INT
@@ -134,14 +134,14 @@ AND       : 'and' ;
 OR        : 'or'  ;
 NOT       : 'not' ;
 
-// IDENTIFIER TOKEN
-ID        : ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
-
 // VALUE TOKENS
 INTVAL    : ('0'..'9')+ ;
 BOOLVAL   : ('true'|'false');
 FLOATVAL  : ('0'..'9')+ '.' ('0'..'9')+;
 CHARVAL   : '\'' ( ESC_SEQ | ~('\\'|'\'') ) '\'' ;
+
+// IDENTIFIER TOKEN
+ID        : ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 
 // Strings (in quotes) with escape sequences
 STRING    : '"' ( ESC_SEQ | ~('\\'|'"') )* '"' ;

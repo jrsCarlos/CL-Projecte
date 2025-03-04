@@ -219,8 +219,7 @@ std::any TypeCheckVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
     Errors.incompatibleOperator(ctx->op);
   
   TypesMgr::TypeId t;
-  if (Types.isFloatTy(t1) or Types.isFloatTy(t2))
-    t = Types.createFloatTy();
+  if (Types.isFloatTy(t1) or Types.isFloatTy(t2)) t = Types.createFloatTy();
   else t = Types.createIntegerTy();
 
   putTypeDecor(ctx, t);
