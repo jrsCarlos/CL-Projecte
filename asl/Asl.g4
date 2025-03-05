@@ -49,6 +49,7 @@ declarations : (variable_decl)*
 variable_decl : VAR ID (',' ID)* ':' type
               ;
 
+
 type    : INT
         | FLOAT
         | BOOL
@@ -80,6 +81,7 @@ statement
 
 // Grammar for left expressions (l-values in C++)
 left_expr : ident
+          | arrayacces
           ;
 
 // Grammar for expressions with boolean, relational and aritmetic operators
@@ -94,6 +96,7 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
         | CHARVAL                                    # value
         | BOOLVAL                                    # value
         | ident                                      # exprIdent
+        | arrayacces                                 # exprArray
         | '(' expr ')'                               # parent
         ;
 
@@ -101,6 +104,8 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
 ident   : ID
         ;
 
+arrayacces  :  ID '[' expr ']'
+            ;
 //////////////////////////////////////////////////
 /// Lexer Rules
 //////////////////////////////////////////////////
