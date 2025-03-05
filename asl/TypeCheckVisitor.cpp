@@ -39,7 +39,7 @@
 #include <string>
 
 // uncomment the following line to enable debugging messages with DEBUG*
-// #define DEBUG_BUILD
+//#define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -222,6 +222,7 @@ std::any TypeCheckVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
   if (Types.isFloatTy(t1) or Types.isFloatTy(t2)) t = Types.createFloatTy();
   else t = Types.createIntegerTy();
 
+  std::cout << t << std::endl;
   putTypeDecor(ctx, t);
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();
@@ -255,11 +256,13 @@ std::any TypeCheckVisitor::visitRelational(AslParser::RelationalContext *ctx) {
   TypesMgr::TypeId t1 = getTypeDecor(ctx->expr(0));
   visit(ctx->expr(1));
   TypesMgr::TypeId t2 = getTypeDecor(ctx->expr(1));
+
   std::string oper = ctx->op->getText();
   if ((not Types.isErrorTy(t1)) and (not Types.isErrorTy(t2)) and
       (not Types.comparableTypes(t1, t2, oper)))
     Errors.incompatibleOperator(ctx->op);
   TypesMgr::TypeId t = Types.createBooleanTy();
+
   putTypeDecor(ctx, t);
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();

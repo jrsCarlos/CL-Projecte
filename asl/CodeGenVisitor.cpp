@@ -114,7 +114,9 @@ std::any CodeGenVisitor::visitVariable_decl(AslParser::Variable_declContext *ctx
   std::size_t      size = Types.getSizeOfType(t1);
   DEBUG_EXIT();
   
-  return var{ctx->ID()->getText(), Types.to_string(t1), size};
+  for (auto id : ctx->ID()) {
+    return var{id->getText(), Types.to_string(t1), size};
+  }
 }
 
 std::any CodeGenVisitor::visitStatements(AslParser::StatementsContext *ctx) {
