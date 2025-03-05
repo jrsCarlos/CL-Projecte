@@ -84,13 +84,22 @@ std::any TypeCheckVisitor::visitProgram(AslParser::ProgramContext *ctx) {
 
 std::any TypeCheckVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   DEBUG_ENTER();
+
+  /*TypesMgr::TypeId tRet;
+  if (ctx->type()) tRet = getTypeDecor(ctx->type());
+  else tRet = Types.createVoidTy();
+
+  setCurrentFunctionTy(tRet);*/
+
   SymTable::ScopeId sc = getScopeDecor(ctx);
   Symbols.pushThisScope(sc);
   // Symbols.print();
   visit(ctx->statements());
+
   Symbols.popScope();
   DEBUG_EXIT();
   return 0;
+  /// set type al entrar a la funcio y get type al return
 }
 
 // std::any TypeCheckVisitor::visitDeclarations(AslParser::DeclarationsContext *ctx) {

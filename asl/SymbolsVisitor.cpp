@@ -42,7 +42,7 @@
 #include <cstddef>    // std::size_t
 
 // uncomment the following line to enable debugging messages with DEBUG*
-// #define DEBUG_BUILD
+#define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -80,17 +80,25 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   SymTable::ScopeId sc = Symbols.pushNewScope(funcName);
   putScopeDecor(ctx, sc);
 
-  if (ctx->parameters()) visit(ctx->parameters());
+
+  if (ctx->parameters()) visit(ctx->parameters()); //siempre visitar parameters, aunque se duplique la funcion
   visit(ctx->declarations());
-  //Symbols.print();
+  Symbols.print();
   Symbols.popScope();
+
   std::string ident = ctx->ID()->getText();
   if (Symbols.findInCurrentScope(ident)) {
     Errors.declaredIdent(ctx->ID());
   }
+
   else {
     std::vector<TypesMgr::TypeId> lParamsTy;
-    
+
+    if (ctx->parameters()){
+      for(auto param : ctx->parameters()->parameter()){
+        lParamsTy.push_back(getTypeDecor(param));
+      }
+    }
 
     TypesMgr::TypeId tRet;
     if (ctx->type()) tRet = getTypeDecor(ctx->type());
