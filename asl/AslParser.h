@@ -15,15 +15,16 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, ASSIGN = 6, EQUAL = 7, 
     NE = 8, GT = 9, GE = 10, LT = 11, LE = 12, PLUS = 13, MINUS = 14, DIV = 15, 
     MUL = 16, VAR = 17, INT = 18, FLOAT = 19, BOOL = 20, CHAR = 21, IF = 22, 
-    THEN = 23, ELSE = 24, ENDIF = 25, FUNC = 26, ENDFUNC = 27, READ = 28, 
-    WRITE = 29, AND = 30, OR = 31, NOT = 32, INTVAL = 33, BOOLVAL = 34, 
-    FLOATVAL = 35, CHARVAL = 36, ID = 37, STRING = 38, COMMENT = 39, WS = 40
+    THEN = 23, ELSE = 24, ENDIF = 25, WHILE = 26, DO = 27, ENDWHILE = 28, 
+    FUNC = 29, ENDFUNC = 30, READ = 31, WRITE = 32, RETURN = 33, AND = 34, 
+    OR = 35, NOT = 36, INTVAL = 37, BOOLVAL = 38, FLOATVAL = 39, CHARVAL = 40, 
+    ID = 41, STRING = 42, COMMENT = 43, WS = 44
   };
 
   enum {
-    RuleProgram = 0, RuleFunction = 1, RuleDeclarations = 2, RuleVariable_decl = 3, 
-    RuleType = 4, RuleStatements = 5, RuleStatement = 6, RuleLeft_expr = 7, 
-    RuleExpr = 8, RuleIdent = 9
+    RuleProgram = 0, RuleFunction = 1, RuleParameters = 2, RuleParameter = 3, 
+    RuleDeclarations = 4, RuleVariable_decl = 5, RuleType = 6, RuleStatements = 7, 
+    RuleStatement = 8, RuleLeft_expr = 9, RuleExpr = 10, RuleIdent = 11
   };
 
   explicit AslParser(antlr4::TokenStream *input);
@@ -45,6 +46,8 @@ public:
 
   class ProgramContext;
   class FunctionContext;
+  class ParametersContext;
+  class ParameterContext;
   class DeclarationsContext;
   class Variable_declContext;
   class TypeContext;
@@ -78,6 +81,8 @@ public:
     DeclarationsContext *declarations();
     StatementsContext *statements();
     antlr4::tree::TerminalNode *ENDFUNC();
+    ParametersContext *parameters();
+    TypeContext *type();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -85,6 +90,34 @@ public:
   };
 
   FunctionContext* function();
+
+  class  ParametersContext : public antlr4::ParserRuleContext {
+  public:
+    ParametersContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<ParameterContext *> parameter();
+    ParameterContext* parameter(size_t i);
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ParametersContext* parameters();
+
+  class  ParameterContext : public antlr4::ParserRuleContext {
+  public:
+    ParameterContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *ID();
+    TypeContext *type();
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ParameterContext* parameter();
 
   class  DeclarationsContext : public antlr4::ParserRuleContext {
   public:
@@ -178,6 +211,19 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  WhileStmtContext : public StatementContext {
+  public:
+    WhileStmtContext(StatementContext *ctx);
+
+    antlr4::tree::TerminalNode *WHILE();
+    ExprContext *expr();
+    antlr4::tree::TerminalNode *DO();
+    StatementsContext *statements();
+    antlr4::tree::TerminalNode *ENDWHILE();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  IfStmtContext : public StatementContext {
   public:
     IfStmtContext(StatementContext *ctx);
@@ -185,8 +231,10 @@ public:
     antlr4::tree::TerminalNode *IF();
     ExprContext *expr();
     antlr4::tree::TerminalNode *THEN();
-    StatementsContext *statements();
+    std::vector<StatementsContext *> statements();
+    StatementsContext* statements(size_t i);
     antlr4::tree::TerminalNode *ENDIF();
+    antlr4::tree::TerminalNode *ELSE();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -207,6 +255,16 @@ public:
 
     Left_exprContext *left_expr();
     antlr4::tree::TerminalNode *ASSIGN();
+    ExprContext *expr();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  ReturnStmtContext : public StatementContext {
+  public:
+    ReturnStmtContext(StatementContext *ctx);
+
+    antlr4::tree::TerminalNode *RETURN();
     ExprContext *expr();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;

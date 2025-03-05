@@ -35,10 +35,13 @@ grammar Asl;
 // A program is a list of functions
 program : function+ EOF
         ;
-
+//DEBERIAMOS COMPROBAR EL TIPO DEL RETURN Y EL DE LA FUNCION NO??????
 // A function has a name, a list of parameters and a list of statements
-function : FUNC ID '(' ')' declarations statements ENDFUNC
+function : FUNC ID '(' (parameters)? ')' (':' type)? declarations statements ENDFUNC
          ;
+parameters : parameter (',' parameter)*;
+
+parameter : ID ':' type;
 
 declarations : (variable_decl)*
              ;
@@ -61,6 +64,8 @@ statement
         : left_expr ASSIGN expr ';'           # assignStmt
           // if-then-else statement (else is optional)
         | IF expr THEN statements (ELSE statements)? ENDIF   # ifStmt
+          // hola
+        | WHILE expr DO statements ENDWHILE   # whileStmt
           // A function/procedure call has a list of arguments in parenthesis (possibly empty)
         | ident '(' ')' ';'                   # procCall
           // Read a variable
@@ -69,6 +74,8 @@ statement
         | WRITE expr ';'                      # writeExpr
           // Write a string
         | WRITE STRING ';'                    # writeString
+          //
+        | RETURN (expr)? ';'                    # returnStmt
         ;
 
 // Grammar for left expressions (l-values in C++)
@@ -124,10 +131,14 @@ IF        : 'if'   ;
 THEN      : 'then' ;
 ELSE      : 'else' ;
 ENDIF     : 'endif';
+WHILE     : 'while';
+DO        : 'do'   ;
+ENDWHILE  : 'endwhile';
 FUNC      : 'func' ;
 ENDFUNC   : 'endfunc';
 READ      : 'read'   ;
 WRITE     : 'write'  ;
+RETURN    : 'return' ;
 
 // LOGICAL TOKENS
 AND       : 'and' ;

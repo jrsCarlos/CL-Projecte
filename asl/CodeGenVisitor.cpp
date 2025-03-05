@@ -114,9 +114,8 @@ std::any CodeGenVisitor::visitVariable_decl(AslParser::Variable_declContext *ctx
   std::size_t      size = Types.getSizeOfType(t1);
   DEBUG_EXIT();
   
-  for (auto id : ctx->ID()) {
-    return var{id->getText(), Types.to_string(t1), size};
-  }
+  // preguntar al profe
+  return var{ctx->ID(0)->getText(), Types.to_string(t1), size};
 }
 
 std::any CodeGenVisitor::visitStatements(AslParser::StatementsContext *ctx) {
@@ -154,7 +153,7 @@ std::any CodeGenVisitor::visitIfStmt(AslParser::IfStmtContext *ctx) {
   CodeAttribs     && codAtsE = std::any_cast<CodeAttribs>(visit(ctx->expr()));
   std::string          addr1 = codAtsE.addr;
   instructionList &    code1 = codAtsE.code;
-  instructionList &&   code2 = std::any_cast<instructionList>(visit(ctx->statements()));
+  instructionList &&   code2 = std::any_cast<instructionList>(visit(ctx->statements(0)));
   std::string label = codeCounters.newLabelIF();
   std::string labelEndIf = "endif"+label;
   code = code1 || instruction::FJUMP(addr1, labelEndIf) ||

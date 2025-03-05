@@ -140,8 +140,24 @@ std::any TypeCheckVisitor::visitIfStmt(AslParser::IfStmtContext *ctx) {
   DEBUG_ENTER();
   visit(ctx->expr());
   TypesMgr::TypeId t1 = getTypeDecor(ctx->expr());
+
   if ((not Types.isErrorTy(t1)) and (not Types.isBooleanTy(t1)))
     Errors.booleanRequired(ctx);
+
+  visit(ctx->statements(0));
+  if (ctx->ELSE()) visit(ctx->statements(1));
+  DEBUG_EXIT();
+  return 0;
+}
+
+std::any TypeCheckVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
+  DEBUG_ENTER();
+  visit(ctx->expr());
+  TypesMgr::TypeId t1 = getTypeDecor(ctx->expr());
+
+  if ((not Types.isErrorTy(t1)) and (not Types.isBooleanTy(t1)))
+    Errors.booleanRequired(ctx);
+
   visit(ctx->statements());
   DEBUG_EXIT();
   return 0;
@@ -222,7 +238,6 @@ std::any TypeCheckVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
   if (Types.isFloatTy(t1) or Types.isFloatTy(t2)) t = Types.createFloatTy();
   else t = Types.createIntegerTy();
 
-  std::cout << t << std::endl;
   putTypeDecor(ctx, t);
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();
@@ -322,9 +337,11 @@ std::any TypeCheckVisitor::visitIdent(AslParser::IdentContext *ctx) {
 SymTable::ScopeId TypeCheckVisitor::getScopeDecor(antlr4::ParserRuleContext *ctx) {
   return Decorations.getScope(ctx);
 }
+
 TypesMgr::TypeId TypeCheckVisitor::getTypeDecor(antlr4::ParserRuleContext *ctx) {
   return Decorations.getType(ctx);
 }
+
 bool TypeCheckVisitor::getIsLValueDecor(antlr4::ParserRuleContext *ctx) {
   return Decorations.getIsLValue(ctx);
 }
@@ -334,9 +351,11 @@ bool TypeCheckVisitor::getIsLValueDecor(antlr4::ParserRuleContext *ctx) {
 void TypeCheckVisitor::putScopeDecor(antlr4::ParserRuleContext *ctx, SymTable::ScopeId s) {
   Decorations.putScope(ctx, s);
 }
+
 void TypeCheckVisitor::putTypeDecor(antlr4::ParserRuleContext *ctx, TypesMgr::TypeId t) {
   Decorations.putType(ctx, t);
 }
+
 void TypeCheckVisitor::putIsLValueDecor(antlr4::ParserRuleContext *ctx, bool b) {
   Decorations.putIsLValue(ctx, b);
 }
