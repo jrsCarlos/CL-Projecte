@@ -331,6 +331,14 @@ std::any TypeCheckVisitor::visitIdent(AslParser::IdentContext *ctx) {
   return 0;
 }
 
+std::any TypeCheckVisitor::visitParent(AslParser::ParentContext *ctx) {
+  DEBUG_ENTER();
+  visit(ctx->expr());
+  TypesMgr::TypeId t = getTypeDecor(ctx->expr());
+  putTypeDecor(ctx, t);
+  DEBUG_EXIT();
+  return 0;
+}
 
 // Getters for the necessary tree node atributes:
 //   Scope, Type ans IsLValue

@@ -68,7 +68,7 @@ std::any SymbolsVisitor::visitProgram(AslParser::ProgramContext *ctx) {
   for (auto ctxFunc : ctx->function()) { 
     visit(ctxFunc);
   }
-  // Symbols.print();
+  // Symbols.print();e
   Symbols.popScope();
   DEBUG_EXIT();
   return 0;
@@ -82,7 +82,7 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
 
   if (ctx->parameters()) visit(ctx->parameters());
   visit(ctx->declarations());
-  Symbols.print();
+  //Symbols.print();
   Symbols.popScope();
   std::string ident = ctx->ID()->getText();
   if (Symbols.findInCurrentScope(ident)) {
@@ -121,7 +121,7 @@ std::any SymbolsVisitor::visitParameter(AslParser::ParameterContext *ctx) {
   }
   else {
     TypesMgr::TypeId t1 = getTypeDecor(ctx->type());
-    Symbols.addLocalVar(ident, t1);
+    Symbols.addParameter(ident, t1);
   }
 
   DEBUG_EXIT();
