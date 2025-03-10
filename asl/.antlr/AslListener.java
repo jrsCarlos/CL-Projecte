@@ -1,4 +1,4 @@
-// Generated from /home2/users/alumnes/1253874/dades/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
+// Generated from /home2/users/alumnes/1278170/Documents/CL/Git/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -26,6 +26,26 @@ public interface AslListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(AslParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AslParser#parameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameters(AslParser.ParametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AslParser#parameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameters(AslParser.ParametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AslParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameter(AslParser.ParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AslParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameter(AslParser.ParameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AslParser#declarations}.
 	 * @param ctx the parse tree
@@ -91,6 +111,18 @@ public interface AslListener extends ParseTreeListener {
 	 */
 	void exitIfStmt(AslParser.IfStmtContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code whileStmt}
+	 * labeled alternative in {@link AslParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStmt(AslParser.WhileStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code whileStmt}
+	 * labeled alternative in {@link AslParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStmt(AslParser.WhileStmtContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code procCall}
 	 * labeled alternative in {@link AslParser#statement}.
 	 * @param ctx the parse tree
@@ -138,6 +170,18 @@ public interface AslListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWriteString(AslParser.WriteStringContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code returnStmt}
+	 * labeled alternative in {@link AslParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnStmt(AslParser.ReturnStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code returnStmt}
+	 * labeled alternative in {@link AslParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnStmt(AslParser.ReturnStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AslParser#left_expr}.
 	 * @param ctx the parse tree
@@ -209,6 +253,18 @@ public interface AslListener extends ParseTreeListener {
 	 */
 	void exitUnary(AslParser.UnaryContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code exprArray}
+	 * labeled alternative in {@link AslParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprArray(AslParser.ExprArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exprArray}
+	 * labeled alternative in {@link AslParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprArray(AslParser.ExprArrayContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code value}
 	 * labeled alternative in {@link AslParser#expr}.
 	 * @param ctx the parse tree
@@ -242,4 +298,14 @@ public interface AslListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIdent(AslParser.IdentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AslParser#arrayacces}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayacces(AslParser.ArrayaccesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AslParser#arrayacces}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayacces(AslParser.ArrayaccesContext ctx);
 }

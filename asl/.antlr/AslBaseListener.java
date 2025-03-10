@@ -1,4 +1,4 @@
-// Generated from /home2/users/alumnes/1253874/dades/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
+// Generated from /home2/users/alumnes/1278170/Documents/CL/Git/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -35,6 +35,30 @@ public class AslBaseListener implements AslListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunction(AslParser.FunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParameters(AslParser.ParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameters(AslParser.ParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParameter(AslParser.ParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameter(AslParser.ParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -112,6 +136,18 @@ public class AslBaseListener implements AslListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterWhileStmt(AslParser.WhileStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhileStmt(AslParser.WhileStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterProcCall(AslParser.ProcCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -155,6 +191,18 @@ public class AslBaseListener implements AslListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWriteString(AslParser.WriteStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReturnStmt(AslParser.ReturnStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnStmt(AslParser.ReturnStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -232,6 +280,18 @@ public class AslBaseListener implements AslListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExprArray(AslParser.ExprArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExprArray(AslParser.ExprArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterValue(AslParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -263,6 +323,18 @@ public class AslBaseListener implements AslListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIdent(AslParser.IdentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayacces(AslParser.ArrayaccesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayacces(AslParser.ArrayaccesContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

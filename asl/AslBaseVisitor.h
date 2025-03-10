@@ -103,6 +103,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitExprArray(AslParser::ExprArrayContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitValue(AslParser::ValueContext *ctx) override {
     return visitChildren(ctx);
   }

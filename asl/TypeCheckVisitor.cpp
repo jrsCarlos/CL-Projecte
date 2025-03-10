@@ -159,6 +159,8 @@ std::any TypeCheckVisitor::visitIfStmt(AslParser::IfStmtContext *ctx) {
   return 0;
 }
 
+
+
 std::any TypeCheckVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
   DEBUG_ENTER();
   visit(ctx->expr());
@@ -217,14 +219,26 @@ std::any TypeCheckVisitor::visitWriteExpr(AslParser::WriteExprContext *ctx) {
 
 std::any TypeCheckVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
   DEBUG_ENTER();
-  visit(ctx->ident());
-  TypesMgr::TypeId t1 = getTypeDecor(ctx->ident());
-  putTypeDecor(ctx, t1);
-  bool b = getIsLValueDecor(ctx->ident());
-  putIsLValueDecor(ctx, b);
+  if(ctx->ident()){
+    visit(ctx->ident());
+    TypesMgr::TypeId t1 = getTypeDecor(ctx->ident());
+    putTypeDecor(ctx, t1);
+    bool b = getIsLValueDecor(ctx->ident());
+    putIsLValueDecor(ctx, b);
+  }
+  else{
+    visit(ctx->expr());
+    TypesMgr::TypeId t1 = getTypeDecor(ctx->expr());
+    if(((not Types.isErrorTy(t1)) and (not Types.isArrayTy(t1))) )
+      Errors.nonArrayInArrayAccess(ctx->expr());
+
+    if (((not Types.isErrorTy(t1)) and (not Types.isIntegerTy(t1))))
+      Errors.nonIntegerIndexInArrayAccess(ctx->expr());
+    }
   DEBUG_EXIT();
   return 0;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //                                   EXPRESIONS                                          //
@@ -336,6 +350,23 @@ std::any TypeCheckVisitor::visitIdent(AslParser::IdentContext *ctx) {
     else
       putIsLValueDecor(ctx, true);
   }
+  DEBUG_EXIT();
+  return 0;
+}
+
+std::any TypeCheckVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
+  DEBUG_ENTER();
+  
+  visit(ctx->expr());
+
+    TypesMgr::TypeId t1 = getTypeDecor(ctx->expr());
+    //check ArrayType
+    if(((not Types.isErrorTy(t1)) and (not Types.isArrayTy(t1))) )
+      Errors.nonArrayInArrayAccess(ctx->expr());
+    //check IndexType
+    if (((not Types.isErrorTy(t1)) and (not Types.isIntegerTy(t1))))
+      Errors.nonIntegerIndexInArrayAccess(ctx->expr());
+
   DEBUG_EXIT();
   return 0;
 }

@@ -63,6 +63,8 @@ public:
 
     virtual std::any visitUnary(AslParser::UnaryContext *context) = 0;
 
+    virtual std::any visitExprArray(AslParser::ExprArrayContext *context) = 0;
+
     virtual std::any visitValue(AslParser::ValueContext *context) = 0;
 
     virtual std::any visitLogical(AslParser::LogicalContext *context) = 0;

@@ -80,8 +80,8 @@ statement
         ;
 
 // Grammar for left expressions (l-values in C++)
-left_expr : ident
-          | arrayacces
+left_expr : ident                                   
+          | ID '[' expr ']'                          
           ;
 
 // Grammar for expressions with boolean, relational and aritmetic operators
@@ -96,7 +96,7 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
         | CHARVAL                                    # value
         | BOOLVAL                                    # value
         | ident                                      # exprIdent
-        | arrayacces                                 # exprArray
+        | ID '[' expr ']'                            # exprArray
         | '(' expr ')'                               # parent
         ;
 
@@ -104,8 +104,6 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
 ident   : ID
         ;
 
-arrayacces  :  ID '[' expr ']'
-            ;
 //////////////////////////////////////////////////
 /// Lexer Rules
 //////////////////////////////////////////////////
