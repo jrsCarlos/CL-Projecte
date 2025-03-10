@@ -97,6 +97,7 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
         | BOOLVAL                                    # value
         | ident                                      # exprIdent
         | ID '[' expr ']'                            # exprArray
+        | ID '('')'                                  # funcCall
         | '(' expr ')'                               # parent
         ;
 

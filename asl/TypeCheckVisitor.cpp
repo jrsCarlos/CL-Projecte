@@ -90,7 +90,6 @@ std::any TypeCheckVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   else tRet = Types.createVoidTy();
 
   setCurrentFunctionTy(tRet);*/
-
   SymTable::ScopeId sc = getScopeDecor(ctx);
   Symbols.pushThisScope(sc);
   // Symbols.print();
@@ -354,6 +353,7 @@ std::any TypeCheckVisitor::visitIdent(AslParser::IdentContext *ctx) {
   return 0;
 }
 
+//Problema nos detecta el error 2 posiciones mas alla (segundo ]) Pregunta profe
 std::any TypeCheckVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
   DEBUG_ENTER();
   
@@ -367,6 +367,26 @@ std::any TypeCheckVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
     if (((not Types.isErrorTy(t1)) and (not Types.isIntegerTy(t1))))
       Errors.nonIntegerIndexInArrayAccess(ctx->expr());
 
+  DEBUG_EXIT();
+  return 0;
+}
+
+std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
+  DEBUG_ENTER();
+
+  std::string ident = ctx->ID()->getText();
+  if (Symbols.findInStack(ident) == -1) {
+    Errors.undeclaredIdent(ctx->ID());
+    TypesMgr::TypeId te = Types.createErrorTy();
+    putTypeDecor(ctx, te);
+    putIsLValueDecor(ctx, false);   
+  }
+  else {
+    TypesMgr::TypeId t = Symbols.getType(ident);
+    putTypeDecor(ctx, t);
+    putIsLValueDecor(ctx, false);
+  }
+  
   DEBUG_EXIT();
   return 0;
 }
