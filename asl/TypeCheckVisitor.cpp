@@ -382,7 +382,24 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
     putIsLValueDecor(ctx, false);   
   }
   else {
-    TypesMgr::TypeId t = Symbols.getType(ident);
+    //parameter check
+
+    TypesMgr::TypeId t = Symbols.getGlobalFunctionType(ident);
+    auto x = Types.getNumOfParameters(t);
+    //  std::cout << "Num Param: " << t << " " <<x << std::endl;
+    if(ctx->expr().size() != x){
+      Errors.numberOfParameters(ctx);
+    }
+
+    else if(x > 0){
+      for(int i = 0; i < Types.getNumOfParameters(t); ++i){
+        std::cout << "Param Type: " << ctx->expr(i)->getText() << " " <<  Types.to_string(getTypeDecor(ctx->expr(i))) << std::endl ;
+        std::cout << "Param Type Check: " << (not (Types.isErrorTy(getTypeDecor(ctx->expr(i))))) << " " <<  (not (Types.equalTypes(Types.getParameterType(t, i), getTypeDecor(ctx->expr(i))))) << std::endl ;
+        if(not (Types.copyableTypes((Types.getParameterType(t, i)), (getTypeDecor(ctx->expr(i))))) and (not (Types.isErrorTy(getTypeDecor(ctx->expr(i))))))
+          Errors.incompatibleParameter(ctx->expr(i), i+1, ctx);
+      }
+    }
+    std::cout << "Funct Type: " << t << " " <<Types.to_string(t) << std::endl ;
     putTypeDecor(ctx, t);
     putIsLValueDecor(ctx, false);
   }

@@ -378,6 +378,8 @@ public:
     FuncCallContext(ExprContext *ctx);
 
     antlr4::tree::TerminalNode *ID();
+    std::vector<ExprContext *> expr();
+    ExprContext* expr(size_t i);
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
