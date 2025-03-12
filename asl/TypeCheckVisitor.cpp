@@ -175,13 +175,51 @@ std::any TypeCheckVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
 
 std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
   DEBUG_ENTER();
-  visit(ctx->ident());
-  TypesMgr::TypeId t1 = getTypeDecor(ctx->ident());
-  if (Types.isErrorTy(t1)) {
-    ;
-  } else if (not Types.isFunctionTy(t1)) {
-    Errors.isNotCallable(ctx->ident());
+  TypesMgr::TypeId t;
+  std::string ident = ctx->ident()->ID()->getText();
+  TypesMgr::TypeId funcID = Symbols.getType(ident);
+
+  // Si la funcion ya existe  -> ERROR
+  if (Symbols.findInStack(ident) == -1) {
+    Errors.undeclaredIdent(ctx->ident()->ID());
+    t = Types.createErrorTy();  
   }
+  else {
+    if(not Types.isFunctionTy(funcID)){
+      Errors.isNotCallable(ctx->ident());
+      t = Types.createErrorTy();
+    }
+    else{
+      int i = 0;
+      for (auto param : ctx->expr()) {
+        visit(param);
+        TypesMgr::TypeId tParam = getTypeDecor(param);
+
+        TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
+
+        std::cout << "Expected Param Type: " <<  Types.to_string(Types.getParameterType(funcID, i)) << std::endl ;
+
+        std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
+
+        std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.equalTypes(tParam, funcParam)) << std::endl ;
+          
+
+
+        if ((not Types.isErrorTy(tParam)) and
+            (not Types.equalTypes(tParam, funcParam))) {
+              Errors.incompatibleParameter(param, i+1, ctx);
+              t = Types.createErrorTy();
+
+            }
+      }
+      t = Types.getFuncReturnType(funcID);
+    }
+  }
+    std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
+    // https://www.worldpackers.com/positions/76763/details
+    putTypeDecor(ctx, t); 
+    putIsLValueDecor(ctx, false);
+  
   DEBUG_EXIT();
   return 0;
 }
@@ -384,27 +422,37 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
     t = Types.createErrorTy();  
   }
   else {
-    int i = 0;
-    for (auto param : ctx->expr()) {
-      visit(param);
-      TypesMgr::TypeId tParam = getTypeDecor(param);
-
-      TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
-
-      std::cout << "Expected Param Type: " <<  Types.to_string(Types.getParameterType(funcID, i)) << std::endl ;
-
-      std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
-
-      std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.equalTypes(tParam, funcParam)) << std::endl ;
-        
-
-
-      if ((not Types.isErrorTy(tParam)) and
-          (not Types.equalTypes(tParam, funcParam))) {
-            Errors.incompatibleParameter(param, i+1, ctx);
-          }
+    if(not Types.isFunctionTy(funcID)){
+      Errors.isNotCallable(ctx);
+      t = Types.createErrorTy();
     }
-    t = Types.getFuncReturnType(funcID);
+    else if(Types.isVoidFunction(funcID)){
+      Errors.isNotFunction(ctx);
+      t = Types.createErrorTy();  
+    }
+    else{
+      int i = 0;
+      for (auto param : ctx->expr()) {
+        visit(param);
+        TypesMgr::TypeId tParam = getTypeDecor(param);
+
+        TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
+
+        std::cout << "Expected Param Type: " <<  Types.to_string(Types.getParameterType(funcID, i)) << std::endl ;
+
+        std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
+
+        std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.equalTypes(tParam, funcParam)) << std::endl ;
+          
+
+
+        if ((not Types.isErrorTy(tParam)) and
+            (not Types.equalTypes(tParam, funcParam))) {
+              Errors.incompatibleParameter(param, i+1, ctx);
+            }
+      }
+      t = Types.getFuncReturnType(funcID);
+    }
   }
 
   std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
