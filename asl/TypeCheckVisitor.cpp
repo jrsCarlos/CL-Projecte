@@ -391,14 +391,24 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
 
       TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
 
-      if ((not Types.isErrorTy(tParam)) and (not Types.isErrorTy(funcParam)) and
+      std::cout << "Expected Param Type: " <<  Types.to_string(Types.getParameterType(funcID, i)) << std::endl ;
+
+      std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
+
+      std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.equalTypes(tParam, funcParam)) << std::endl ;
+        
+
+
+      if ((not Types.isErrorTy(tParam)) and
           (not Types.equalTypes(tParam, funcParam))) {
             Errors.incompatibleParameter(param, i+1, ctx);
           }
     }
     t = Types.getFuncReturnType(funcID);
   }
-  
+
+  std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
+
   putTypeDecor(ctx, t); 
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();
