@@ -289,7 +289,6 @@ public:
     Left_exprContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     IdentContext *ident();
-    antlr4::tree::TerminalNode *ID();
     ExprContext *expr();
 
 
@@ -379,7 +378,7 @@ public:
   public:
     FuncCallContext(ExprContext *ctx);
 
-    antlr4::tree::TerminalNode *ID();
+    IdentContext *ident();
     std::vector<ExprContext *> expr();
     ExprContext* expr(size_t i);
 
@@ -390,7 +389,7 @@ public:
   public:
     ExprArrayContext(ExprContext *ctx);
 
-    antlr4::tree::TerminalNode *ID();
+    IdentContext *ident();
     ExprContext *expr();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
