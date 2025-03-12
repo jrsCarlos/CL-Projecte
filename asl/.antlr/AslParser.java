@@ -1,4 +1,4 @@
-// Generated from /home2/users/alumnes/1278170/Documents/CL/Git/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
+// Generated from /home2/users/alumnes/1253874/dades/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -118,6 +118,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitProgram(this);
+		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -177,6 +185,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_function; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterFunction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitFunction(this);
+		}
 	}
 
 	public final FunctionContext function() throws RecognitionException {
@@ -247,6 +263,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameters; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterParameters(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitParameters(this);
+		}
 	}
 
 	public final ParametersContext parameters() throws RecognitionException {
@@ -297,6 +321,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameter; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterParameter(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitParameter(this);
+		}
 	}
 
 	public final ParameterContext parameter() throws RecognitionException {
@@ -336,6 +368,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarations; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterDeclarations(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitDeclarations(this);
+		}
 	}
 
 	public final DeclarationsContext declarations() throws RecognitionException {
@@ -386,6 +426,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variable_decl; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterVariable_decl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitVariable_decl(this);
+		}
 	}
 
 	public final Variable_declContext variable_decl() throws RecognitionException {
@@ -442,6 +490,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitType(this);
+		}
 	}
 
 	public final TypeContext type() throws RecognitionException {
@@ -486,6 +542,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statements; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterStatements(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitStatements(this);
+		}
 	}
 
 	public final StatementsContext statements() throws RecognitionException {
@@ -540,6 +604,14 @@ public class AslParser extends Parser {
 			return getRuleContext(IdentContext.class,0);
 		}
 		public ProcCallContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterProcCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitProcCall(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class WriteExprContext extends StatementContext {
@@ -548,6 +620,14 @@ public class AslParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public WriteExprContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterWriteExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitWriteExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class WhileStmtContext extends StatementContext {
@@ -561,6 +641,14 @@ public class AslParser extends Parser {
 		}
 		public TerminalNode ENDWHILE() { return getToken(AslParser.ENDWHILE, 0); }
 		public WhileStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterWhileStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitWhileStmt(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IfStmtContext extends StatementContext {
@@ -578,6 +666,14 @@ public class AslParser extends Parser {
 		public TerminalNode ENDIF() { return getToken(AslParser.ENDIF, 0); }
 		public TerminalNode ELSE() { return getToken(AslParser.ELSE, 0); }
 		public IfStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterIfStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitIfStmt(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ReadStmtContext extends StatementContext {
@@ -586,6 +682,14 @@ public class AslParser extends Parser {
 			return getRuleContext(Left_exprContext.class,0);
 		}
 		public ReadStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterReadStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitReadStmt(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class AssignStmtContext extends StatementContext {
@@ -597,6 +701,14 @@ public class AslParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public AssignStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterAssignStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitAssignStmt(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ReturnStmtContext extends StatementContext {
@@ -605,12 +717,28 @@ public class AslParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public ReturnStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterReturnStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitReturnStmt(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class WriteStringContext extends StatementContext {
 		public TerminalNode WRITE() { return getToken(AslParser.WRITE, 0); }
 		public TerminalNode STRING() { return getToken(AslParser.STRING, 0); }
 		public WriteStringContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterWriteString(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitWriteString(this);
+		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -775,6 +903,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_left_expr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterLeft_expr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitLeft_expr(this);
+		}
 	}
 
 	public final Left_exprContext left_expr() throws RecognitionException {
@@ -835,6 +971,14 @@ public class AslParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public ParentContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterParent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitParent(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ExprIdentContext extends ExprContext {
@@ -842,6 +986,14 @@ public class AslParser extends Parser {
 			return getRuleContext(IdentContext.class,0);
 		}
 		public ExprIdentContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterExprIdent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitExprIdent(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ArithmeticContext extends ExprContext {
@@ -857,6 +1009,14 @@ public class AslParser extends Parser {
 		public TerminalNode PLUS() { return getToken(AslParser.PLUS, 0); }
 		public TerminalNode MINUS() { return getToken(AslParser.MINUS, 0); }
 		public ArithmeticContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterArithmetic(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitArithmetic(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class RelationalContext extends ExprContext {
@@ -874,6 +1034,14 @@ public class AslParser extends Parser {
 		public TerminalNode LT() { return getToken(AslParser.LT, 0); }
 		public TerminalNode LE() { return getToken(AslParser.LE, 0); }
 		public RelationalContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterRelational(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitRelational(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class UnaryContext extends ExprContext {
@@ -885,6 +1053,14 @@ public class AslParser extends Parser {
 		public TerminalNode PLUS() { return getToken(AslParser.PLUS, 0); }
 		public TerminalNode MINUS() { return getToken(AslParser.MINUS, 0); }
 		public UnaryContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterUnary(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitUnary(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FuncCallContext extends ExprContext {
@@ -896,6 +1072,14 @@ public class AslParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public FuncCallContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterFuncCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitFuncCall(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ExprArrayContext extends ExprContext {
@@ -904,6 +1088,14 @@ public class AslParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public ExprArrayContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterExprArray(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitExprArray(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ValueContext extends ExprContext {
@@ -912,6 +1104,14 @@ public class AslParser extends Parser {
 		public TerminalNode CHARVAL() { return getToken(AslParser.CHARVAL, 0); }
 		public TerminalNode BOOLVAL() { return getToken(AslParser.BOOLVAL, 0); }
 		public ValueContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterValue(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitValue(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class LogicalContext extends ExprContext {
@@ -925,6 +1125,14 @@ public class AslParser extends Parser {
 		public TerminalNode AND() { return getToken(AslParser.AND, 0); }
 		public TerminalNode OR() { return getToken(AslParser.OR, 0); }
 		public LogicalContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterLogical(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitLogical(this);
+		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -1206,6 +1414,14 @@ public class AslParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ident; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).enterIdent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AslListener ) ((AslListener)listener).exitIdent(this);
+		}
 	}
 
 	public final IdentContext ident() throws RecognitionException {
