@@ -437,7 +437,7 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
 
       TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
 
-      std::cout << "Expected Param Type: " <<  Types.to_string(Types.getParameterType(funcID, i)) << std::endl ;
+      std::cout << "Expected Param Type: " <<  Types.to_string(funcParam) << std::endl ;
 
       std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
 

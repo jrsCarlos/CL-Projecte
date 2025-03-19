@@ -110,7 +110,13 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
     }
     else tRet = Types.createVoidTy();
     std::cout << "Func Type Declaration: " << ident << " " <<  Types.to_string(tRet) << std::endl ;
+    
+    int i = 1;
 
+    for(auto p:lParamsTy){
+      std::cout << "Func Type Declaration Params: " << i << " " <<  Types.to_string(p) << std::endl ;
+      i++;
+    }
     TypesMgr::TypeId tFunc = Types.createFunctionTy(lParamsTy, tRet);
     Symbols.addFunction(ident, tFunc);
   }
@@ -176,7 +182,7 @@ std::any SymbolsVisitor::visitVariable_decl(AslParser::Variable_declContext *ctx
   return 0;
 }
 
-std::any SymbolsVisitor::visitType(AslParser::TypeContext *ctx) {
+std::any SymbolsVisitor::visitBasicType(AslParser::BasicTypeContext *ctx) {
   DEBUG_ENTER();
   TypesMgr::TypeId t;
   if (ctx->INT())
@@ -189,6 +195,24 @@ std::any SymbolsVisitor::visitType(AslParser::TypeContext *ctx) {
     t = Types.createCharacterTy();
   
   putTypeDecor(ctx, t);
+  DEBUG_EXIT();
+  return 0;
+}
+
+std::any SymbolsVisitor::visitType(AslParser::TypeContext *ctx) {
+  DEBUG_ENTER();
+  TypesMgr::TypeId finalTy;
+  visit(ctx->basicType());
+
+  if(ctx->ARRAY()){
+    TypesMgr::TypeId elemTy = getTypeDecor(ctx->basicType());
+    finalTy = Types.createArrayTy(stoi(ctx->INTVAL()->getText()), elemTy);
+  }
+  else{
+    finalTy = getTypeDecor(ctx->basicType());
+  }
+  
+  putTypeDecor(ctx, finalTy);
   DEBUG_EXIT();
   return 0;
 }

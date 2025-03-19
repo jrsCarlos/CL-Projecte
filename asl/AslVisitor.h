@@ -33,6 +33,8 @@ public:
 
     virtual std::any visitType(AslParser::TypeContext *context) = 0;
 
+    virtual std::any visitBasicType(AslParser::BasicTypeContext *context) = 0;
+
     virtual std::any visitStatements(AslParser::StatementsContext *context) = 0;
 
     virtual std::any visitAssignStmt(AslParser::AssignStmtContext *context) = 0;

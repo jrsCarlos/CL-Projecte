@@ -49,12 +49,16 @@ declarations : (variable_decl)*
 variable_decl : VAR ID (',' ID)* ':' type
               ;
 
+type  : (ARRAY '[' INTVAL ']' OF basicType) 
+      | basicType                           
+      ;
 
-type    : INT
-        | FLOAT
-        | BOOL
-        | CHAR
-        ;
+
+basicType : INT
+          | FLOAT
+          | BOOL
+          | CHAR
+          ;
 
 statements : (statement)*
            ;
@@ -127,6 +131,8 @@ MUL       : '*';
 
 // KEYWORDS TOKENS
 VAR       : 'var'  ;
+ARRAY     : 'array';
+OF        : 'of'   ;
 INT       : 'int'  ;
 FLOAT     : 'float';
 BOOL      : 'bool' ;
