@@ -39,7 +39,7 @@
 #include <string>
 
 // uncomment the following line to enable debugging messages with DEBUG*
-//#define DEBUG_BUILD
+#define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -93,8 +93,20 @@ std::any TypeCheckVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   SymTable::ScopeId sc = getScopeDecor(ctx);
   Symbols.pushThisScope(sc);
   // Symbols.print();
-  visit(ctx->statements());
 
+  TypesMgr::TypeId tRet;
+  if (ctx->type()) {
+      visit(ctx->type());
+      tRet = getTypeDecor(ctx->type());
+    }
+  else tRet = Types.createVoidTy();
+  std::cout << "FuncCurrentTypeD: " << Types.to_string(tRet) << std::endl;
+  setCurrentFunctionTy(tRet);
+  std::cout << "FuncCurrentTypeG: " << Types.to_string(getCurrentFunctionTy()) << std::endl;
+  
+
+  visit(ctx->statements());
+  
   Symbols.popScope();
   DEBUG_EXIT();
   return 0;
@@ -183,7 +195,7 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
   // Si la funcion ya existe  -> ERROR
   
   if(not Types.isFunctionTy(funcID)){
-    Errors.isNotCallable(ctx->ident());
+    if(not(Types.isErrorTy(funcID))) Errors.isNotCallable(ctx->ident());
     t = Types.createErrorTy();
   }
   else{
@@ -240,6 +252,35 @@ std::any TypeCheckVisitor::visitWriteExpr(AslParser::WriteExprContext *ctx) {
   TypesMgr::TypeId t1 = getTypeDecor(ctx->expr());
   if ((not Types.isErrorTy(t1)) and (not Types.isPrimitiveTy(t1)))
     Errors.readWriteRequireBasic(ctx);
+  DEBUG_EXIT();
+  return 0;
+}
+
+std::any TypeCheckVisitor::visitReturnStmt(AslParser::ReturnStmtContext *ctx) {
+  DEBUG_ENTER();
+  TypesMgr::TypeId tRet = getCurrentFunctionTy();
+  std::cout << "FuncType: " << Types.to_string(tRet) << std::endl;
+  if(ctx->expr()){
+    visit(ctx->expr());
+    
+    TypesMgr::TypeId tExpr = getTypeDecor(ctx->expr());
+
+    std::cout << "ExprType: " << Types.to_string(tExpr) << std::endl;    
+
+    if(not(Types.isErrorTy(tRet)) and not(Types.isErrorTy(tExpr)) and not(Types.copyableTypes(tRet, tExpr))){
+      Errors.incompatibleReturn(ctx->RETURN());
+      tRet = Types.createErrorTy();
+    }
+
+  }
+  else {
+      if(not(Types.isErrorTy(tRet)) and not(Types.isVoidTy(tRet))){   
+        Errors.incompatibleReturn(ctx->RETURN());
+        tRet = Types.createErrorTy();
+      }
+    }
+  putTypeDecor(ctx, tRet);
+  std::cout << "FuncTypeFinal: " << Types.to_string(tRet) << std::endl; 
   DEBUG_EXIT();
   return 0;
 }
@@ -422,11 +463,11 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
   TypesMgr::TypeId funcID = getTypeDecor(ctx->ident());
 
   if(not Types.isFunctionTy(funcID)){
-    Errors.isNotCallable(ctx);
+    if(not(Types.isErrorTy(funcID))) Errors.isNotCallable(ctx);
     t = Types.createErrorTy();
   }
   else if(Types.isVoidFunction(funcID)){
-    Errors.isNotFunction(ctx);
+    if(not(Types.isErrorTy(funcID))) Errors.isNotFunction(ctx);
     t = Types.createErrorTy();  
   }
   else{

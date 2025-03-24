@@ -84,6 +84,7 @@ public:
   std::any visitParent(AslParser::ParentContext *ctx);
   std::any visitExprArray(AslParser::ExprArrayContext *ctx);
   std::any visitFuncCall(AslParser::FuncCallContext *ctx);
+  std::any visitReturnStmt(AslParser::ReturnStmtContext *ctx);
 
   
 
