@@ -197,16 +197,27 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
   if(not Types.isFunctionTy(funcID)){
     if(not(Types.isErrorTy(funcID))) Errors.isNotCallable(ctx->ident());
     t = Types.createErrorTy();
+    for (auto param : ctx->expr()) {
+      visit(param);
+    }  
+  }
+  else if(not(Types.isVoidFunction(funcID))){
+    t = Types.createErrorTy();
+    if(ctx->expr().size() != Types.getNumOfParameters(funcID))
+      Errors.numberOfParameters(ctx->ident());
+    for (auto param : ctx->expr()) {
+      visit(param);
+    }  
   }
   else{
     int i = 0;
     for (auto param : ctx->expr()) {
       visit(param);
       TypesMgr::TypeId tParam = getTypeDecor(param);
-
-      TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
-
-      std::cout << "Expected Param Type: " <<  Types.to_string(Types.getParameterType(funcID, i)) << std::endl ;
+      TypesMgr::TypeId funcParam;
+      if(i < Types.getNumOfParameters(funcID)) funcParam = Types.getParameterType(funcID,i);
+      else funcParam = Types.createErrorTy();
+      std::cout << "Expected Param Type: " <<  Types.to_string(funcParam) << std::endl ;
 
       std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
 
@@ -215,12 +226,15 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
 
 
       if ((not Types.isErrorTy(tParam)) and
-          (not Types.equalTypes(tParam, funcParam))) {
+          (not Types.equalTypes(tParam, funcParam)) and (not Types.isErrorTy(funcParam))) {
             Errors.incompatibleParameter(param, i+1, ctx);
             t = Types.createErrorTy();
 
           }
+      ++i;
     }
+    if(ctx->expr().size() != Types.getNumOfParameters(funcID))
+      Errors.numberOfParameters(ctx->ident());
     t = Types.getFuncReturnType(funcID);
   
   }
@@ -322,6 +336,33 @@ std::any TypeCheckVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////// ARITHMETIC ///////////////////////////////////////////
+
+std::any TypeCheckVisitor::visitUnary(AslParser::UnaryContext *ctx) {
+  DEBUG_ENTER();
+  visit(ctx->expr());
+  TypesMgr::TypeId tExpr = getTypeDecor(ctx->expr());
+  TypesMgr::TypeId tFinal = tExpr;
+
+  if(ctx->NOT()){
+    if(not(Types.isErrorTy(tExpr)) and not(Types.isBooleanTy(tExpr))){
+      Errors.incompatibleOperator(ctx->op);
+      tFinal = Types.createErrorTy();
+    }
+
+  }
+  else{
+    if(not(Types.isErrorTy(tExpr)) and not(Types.isNumericTy(tExpr))){
+      if(ctx->PLUS())Errors.incompatibleOperator(ctx->op);
+      else Errors.incompatibleOperator(ctx->op);
+      tFinal = Types.createErrorTy();
+    }
+  }
+
+  putTypeDecor(ctx, tFinal);
+  DEBUG_EXIT();
+  return 0;
+}
+
 
 std::any TypeCheckVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
   DEBUG_ENTER();
@@ -436,8 +477,8 @@ std::any TypeCheckVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
   DEBUG_ENTER();
 
   visit(ctx->ident());
-
   TypesMgr::TypeId tArray = getTypeDecor(ctx->ident());
+  TypesMgr::TypeId tFinal;
 
   visit(ctx->expr());
 
@@ -445,11 +486,19 @@ std::any TypeCheckVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
 
 
   //check ArrayType
-  if(((not Types.isErrorTy(tArray)) and (not Types.isArrayTy(tArray))) )
+  if(((not Types.isErrorTy(tArray)) and (not Types.isArrayTy(tArray))) ){
     Errors.nonArrayInArrayAccess(ctx);
+    tFinal = Types.createErrorTy();
+  }
+  else {
+    if(not(Types.isErrorTy(tArray))) tFinal = Types.getArrayElemType(tArray);
+    else tFinal = Types.createErrorTy();
+  }
   //check IndexType
   if (((not Types.isErrorTy(t1)) and (not Types.isIntegerTy(t1))))
     Errors.nonIntegerIndexInArrayAccess(ctx->expr());
+
+  putTypeDecor(ctx, tFinal);
 
   DEBUG_EXIT();
   return 0;
@@ -465,10 +514,18 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
   if(not Types.isFunctionTy(funcID)){
     if(not(Types.isErrorTy(funcID))) Errors.isNotCallable(ctx);
     t = Types.createErrorTy();
+    for (auto param : ctx->expr()) {
+      visit(param);
+    }
   }
   else if(Types.isVoidFunction(funcID)){
     if(not(Types.isErrorTy(funcID))) Errors.isNotFunction(ctx);
-    t = Types.createErrorTy();  
+    t = Types.createErrorTy();
+    if(ctx->expr().size() != Types.getNumOfParameters(funcID))
+      Errors.numberOfParameters(ctx->ident());
+    for (auto param : ctx->expr()) {
+      visit(param);
+    }  
   }
   else{
     int i = 0;
@@ -476,7 +533,9 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
       visit(param);
       TypesMgr::TypeId tParam = getTypeDecor(param);
 
-      TypesMgr::TypeId funcParam = Types.getParameterType(funcID,i);
+      TypesMgr::TypeId funcParam;
+      if(i < Types.getNumOfParameters(funcID)) funcParam = Types.getParameterType(funcID,i);
+      else funcParam = Types.createErrorTy();
 
       std::cout << std::endl << "Function: " <<  ctx->getText() << std::endl ;
 
@@ -489,17 +548,17 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
 
 
       if ((not Types.isErrorTy(tParam)) and
-          (not Types.equalTypes(tParam, funcParam))) {
+          (not Types.equalTypes(tParam, funcParam)) and (not Types.isErrorTy(funcParam))) {
             Errors.incompatibleParameter(param, i+1, ctx);
-          }
+        }
       i++;
     }
+    if(ctx->expr().size() != Types.getNumOfParameters(funcID))
+      Errors.numberOfParameters(ctx->ident());
     t = Types.getFuncReturnType(funcID);
-    
+  
   }
-
   std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
-  // https://www.worldpackers.com/positions/76763/details
   putTypeDecor(ctx, t); 
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();

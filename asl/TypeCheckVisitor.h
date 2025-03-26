@@ -85,6 +85,7 @@ public:
   std::any visitExprArray(AslParser::ExprArrayContext *ctx);
   std::any visitFuncCall(AslParser::FuncCallContext *ctx);
   std::any visitReturnStmt(AslParser::ReturnStmtContext *ctx);
+  std::any visitUnary(AslParser::UnaryContext *ctx);
 
   
 
