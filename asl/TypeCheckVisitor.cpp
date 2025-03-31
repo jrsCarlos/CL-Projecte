@@ -201,15 +201,12 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
       visit(param);
     }  
   }
-  else if(not(Types.isVoidFunction(funcID))){
-    t = Types.createErrorTy();
-    if(ctx->expr().size() != Types.getNumOfParameters(funcID))
-      Errors.numberOfParameters(ctx->ident());
-    for (auto param : ctx->expr()) {
-      visit(param);
-    }  
-  }
   else{
+    if(not(Types.isVoidFunction(funcID))){
+      t = Types.createErrorTy();
+    }
+    else t = Types.getFuncReturnType(funcID);
+
     int i = 0;
     for (auto param : ctx->expr()) {
       visit(param);
@@ -221,12 +218,11 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
 
       std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
 
-      std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.equalTypes(tParam, funcParam)) << std::endl ;
+      std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.copyableTypes(funcParam, tParam)) << std::endl ;
         
 
-
       if ((not Types.isErrorTy(tParam)) and
-          (not Types.equalTypes(tParam, funcParam)) and (not Types.isErrorTy(funcParam))) {
+          (not Types.copyableTypes(funcParam, tParam)) and (not Types.isErrorTy(funcParam))) {
             Errors.incompatibleParameter(param, i+1, ctx);
             t = Types.createErrorTy();
 
@@ -235,11 +231,10 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
     }
     if(ctx->expr().size() != Types.getNumOfParameters(funcID))
       Errors.numberOfParameters(ctx->ident());
-    t = Types.getFuncReturnType(funcID);
+    
   
   }
     std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
-    // https://www.worldpackers.com/positions/76763/details
     putTypeDecor(ctx, t); 
     putIsLValueDecor(ctx, false);
   
@@ -371,13 +366,23 @@ std::any TypeCheckVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
   visit(ctx->expr(1));
   TypesMgr::TypeId t2 = getTypeDecor(ctx->expr(1));
 
-  if (((not Types.isErrorTy(t1)) and (not Types.isNumericTy(t1))) or
-      ((not Types.isErrorTy(t2)) and (not Types.isNumericTy(t2))))
+  //Special case for modulo
+  TypesMgr::TypeId t = Types.createIntegerTy();
+  if(ctx->MODULO()){
+    if (((not Types.isErrorTy(t1)) and (not Types.isIntegerTy(t1))) or
+      ((not Types.isErrorTy(t2)) and (not Types.isIntegerTy(t2))))
     Errors.incompatibleOperator(ctx->op);
+  }
+  //The rest of arithmetic operations
+  else{
+    if (((not Types.isErrorTy(t1)) and (not Types.isNumericTy(t1))) or
+        ((not Types.isErrorTy(t2)) and (not Types.isNumericTy(t2))))
+      Errors.incompatibleOperator(ctx->op);
+    if (Types.isFloatTy(t1) or Types.isFloatTy(t2)) t = Types.createFloatTy();
+  }
   
-  TypesMgr::TypeId t;
-  if (Types.isFloatTy(t1) or Types.isFloatTy(t2)) t = Types.createFloatTy();
-  else t = Types.createIntegerTy();
+  
+  
 
   putTypeDecor(ctx, t);
   putIsLValueDecor(ctx, false);
@@ -518,16 +523,14 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
       visit(param);
     }
   }
-  else if(Types.isVoidFunction(funcID)){
-    if(not(Types.isErrorTy(funcID))) Errors.isNotFunction(ctx);
-    t = Types.createErrorTy();
-    if(ctx->expr().size() != Types.getNumOfParameters(funcID))
-      Errors.numberOfParameters(ctx->ident());
-    for (auto param : ctx->expr()) {
-      visit(param);
-    }  
-  }
   else{
+
+    if(Types.isVoidFunction(funcID)){
+      Errors.isNotFunction(ctx);
+      t = Types.createErrorTy();
+    }
+    else t = Types.getFuncReturnType(funcID);
+
     int i = 0;
     for (auto param : ctx->expr()) {
       visit(param);
@@ -543,19 +546,20 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
 
       std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
 
-      std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.equalTypes(tParam, funcParam)) << std::endl ;
+      std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.copyableTypes(funcParam, tParam)) << std::endl ;
         
 
 
       if ((not Types.isErrorTy(tParam)) and
-          (not Types.equalTypes(tParam, funcParam)) and (not Types.isErrorTy(funcParam))) {
+          (not Types.copyableTypes(funcParam, tParam)) and (not Types.isErrorTy(funcParam))) {
             Errors.incompatibleParameter(param, i+1, ctx);
         }
       i++;
     }
     if(ctx->expr().size() != Types.getNumOfParameters(funcID))
       Errors.numberOfParameters(ctx->ident());
-    t = Types.getFuncReturnType(funcID);
+    
+    
   
   }
   std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;

@@ -14,12 +14,12 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     ASSIGN = 8, EQUAL = 9, NE = 10, GT = 11, GE = 12, LT = 13, LE = 14, 
-    PLUS = 15, MINUS = 16, DIV = 17, MUL = 18, VAR = 19, ARRAY = 20, OF = 21, 
-    INT = 22, FLOAT = 23, BOOL = 24, CHAR = 25, IF = 26, THEN = 27, ELSE = 28, 
-    ENDIF = 29, WHILE = 30, DO = 31, ENDWHILE = 32, FUNC = 33, ENDFUNC = 34, 
-    READ = 35, WRITE = 36, RETURN = 37, AND = 38, OR = 39, NOT = 40, INTVAL = 41, 
-    BOOLVAL = 42, FLOATVAL = 43, CHARVAL = 44, ID = 45, STRING = 46, COMMENT = 47, 
-    WS = 48
+    PLUS = 15, MINUS = 16, DIV = 17, MUL = 18, MODULO = 19, VAR = 20, ARRAY = 21, 
+    OF = 22, INT = 23, FLOAT = 24, BOOL = 25, CHAR = 26, IF = 27, THEN = 28, 
+    ELSE = 29, ENDIF = 30, WHILE = 31, DO = 32, ENDWHILE = 33, FUNC = 34, 
+    ENDFUNC = 35, READ = 36, WRITE = 37, RETURN = 38, AND = 39, OR = 40, 
+    NOT = 41, INTVAL = 42, BOOLVAL = 43, FLOATVAL = 44, CHARVAL = 45, ID = 46, 
+    STRING = 47, COMMENT = 48, WS = 49
   };
 
   enum {
@@ -357,6 +357,7 @@ public:
     ExprContext* expr(size_t i);
     antlr4::tree::TerminalNode *MUL();
     antlr4::tree::TerminalNode *DIV();
+    antlr4::tree::TerminalNode *MODULO();
     antlr4::tree::TerminalNode *PLUS();
     antlr4::tree::TerminalNode *MINUS();
 
