@@ -315,12 +315,20 @@ std::any TypeCheckVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
     visit(ctx->ident());
     TypesMgr::TypeId tArray = getTypeDecor(ctx->ident());
     TypesMgr::TypeId t1 = getTypeDecor(ctx->expr());
+    TypesMgr::TypeId tElementTy = Types.createErrorTy();
     if(((not Types.isErrorTy(tArray)) and (not Types.isArrayTy(tArray))) )
       Errors.nonArrayInArrayAccess(ctx);
 
+    if(Types.isArrayTy(tArray) and not(Types.isErrorTy(tArray))) tElementTy = Types.getArrayElemType(tArray);
+
     if (((not Types.isErrorTy(t1)) and (not Types.isIntegerTy(t1))))
       Errors.nonIntegerIndexInArrayAccess(ctx->expr());
-    }
+    
+    bool b = getIsLValueDecor(ctx->ident());
+    putIsLValueDecor(ctx, b);
+    putTypeDecor(ctx, tElementTy);
+
+  }
   DEBUG_EXIT();
   return 0;
 }
