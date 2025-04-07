@@ -77,6 +77,16 @@ public interface AslListener extends ParseTreeListener {
 	 */
 	void exitType(AslParser.TypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AslParser#basicType}.
+	 * @param ctx the parse tree
+	 */
+	void enterBasicType(AslParser.BasicTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AslParser#basicType}.
+	 * @param ctx the parse tree
+	 */
+	void exitBasicType(AslParser.BasicTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AslParser#statements}.
 	 * @param ctx the parse tree
 	 */

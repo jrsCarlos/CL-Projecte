@@ -327,8 +327,8 @@ std::any TypeCheckVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
     bool b = getIsLValueDecor(ctx->ident());
     putIsLValueDecor(ctx, b);
     putTypeDecor(ctx, tElementTy);
-
   }
+  
   DEBUG_EXIT();
   return 0;
 }

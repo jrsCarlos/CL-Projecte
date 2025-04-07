@@ -28,31 +28,30 @@
 
 grammar Asl;
 
-//////////////////////////////////////////////////
-/// Parser Rules
-//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+//                          PARSER RULES                          ///
+/////////////////////////////////////////////////////////////////////
 
 // A program is a list of functions
 program : function+ EOF
         ;
-//DEBERIAMOS COMPROBAR EL TIPO DEL RETURN Y EL DE LA FUNCION NO??????
+
 // A function has a name, a list of parameters and a list of statements
-function : FUNC ID '(' (parameters)? ')' (':' type)? declarations statements ENDFUNC
+function : FUNC ID '(' parameters? ')' (':' type)? declarations statements ENDFUNC
          ;
 parameters : parameter (',' parameter)*;
 
 parameter : ID ':' type;
 
-declarations : (variable_decl)*
+declarations : variable_decl*
              ;
 
 variable_decl : VAR ID (',' ID)* ':' type
               ;
 
-type  : (ARRAY '[' INTVAL ']' OF basicType) 
+type  : ARRAY '[' INTVAL ']' OF basicType
       | basicType                           
       ;
-
 
 basicType : INT
           | FLOAT
@@ -60,27 +59,27 @@ basicType : INT
           | CHAR
           ;
 
-statements : (statement)*
+statements : statement*
            ;
 
 // The different types of instructions
 statement
           // Assignment
-        : left_expr ASSIGN expr ';'           # assignStmt
+        : left_expr ASSIGN expr ';'                           # assignStmt
           // if-then-else statement (else is optional)
-        | IF expr THEN statements (ELSE statements)? ENDIF   # ifStmt
+        | IF expr THEN statements (ELSE statements)? ENDIF    # ifStmt
           // hola
-        | WHILE expr DO statements ENDWHILE   # whileStmt
+        | WHILE expr DO statements ENDWHILE                   # whileStmt
           // A function/procedure call has a list of arguments in parenthesis (possibly empty)
-        | ident '('(expr (',' expr)*)? ')' ';'      # procCall
+        | ident '(' ( expr (',' expr)* )? ')' ';'             # procCall
           // Read a variable
-        | READ left_expr ';'                  # readStmt
+        | READ left_expr ';'                                  # readStmt
           // Write an expression
-        | WRITE expr ';'                      # writeExpr
+        | WRITE expr ';'                                      # writeExpr
           // Write a string
-        | WRITE STRING ';'                    # writeString
+        | WRITE STRING ';'                                    # writeString
           //
-        | RETURN (expr)? ';'                    # returnStmt
+        | RETURN expr? ';'                                    # returnStmt
         ;
 
 // Grammar for left expressions (l-values in C++)
@@ -90,7 +89,7 @@ left_expr : ident
 
 // Grammar for expressions with boolean, relational and aritmetic operators
 expr    : op=(NOT|PLUS|MINUS) expr                   # unary
-        | expr op=(MUL|DIV|MODULO)  expr                    # arithmetic
+        | expr op=(MUL|DIV|MODULO)  expr             # arithmetic
         | expr op=(PLUS|MINUS) expr                  # arithmetic
         | expr op=(EQUAL|NE|GT|GE|LT|LE) expr        # relational
         | expr op=AND expr                           # logical
@@ -100,8 +99,8 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
         | CHARVAL                                    # value
         | BOOLVAL                                    # value
         | ident                                      # exprIdent
-        | ident '[' expr ']'                            # exprArray
-        | ident '('(expr (',' expr)*)? ')'              # funcCall
+        | ident '[' expr ']'                         # exprArray
+        | ident '('( expr (',' expr)* )? ')'         # funcCall
         | '(' expr ')'                               # parent
         ;
 
@@ -109,57 +108,67 @@ expr    : op=(NOT|PLUS|MINUS) expr                   # unary
 ident   : ID
         ;
 
-//////////////////////////////////////////////////
-/// Lexer Rules
-//////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+//                          LEXER RULES                          ///
+////////////////////////////////////////////////////////////////////
 
 ASSIGN    : '=' ;
 
-// RELATIONAL TOKENS
-EQUAL     : '==' ;
-NE        : '!=' ;
-GT        : '>' ;
-GE        : '>=' ;
-LT        : '<' ;
-LE        : '<=' ;
-
-// ARITHMETIC TOKENS
-PLUS      : '+' ;
-MINUS     : '-' ;
-DIV       : '/' ;
-MUL       : '*';
-MODULO    : '%';
-
-// KEYWORDS TOKENS
-VAR       : 'var'  ;
-ARRAY     : 'array';
-OF        : 'of'   ;
-INT       : 'int'  ;
-FLOAT     : 'float';
-BOOL      : 'bool' ;
-CHAR      : 'char' ; 
-IF        : 'if'   ;
-THEN      : 'then' ;
-ELSE      : 'else' ;
-ENDIF     : 'endif';
-WHILE     : 'while';
-DO        : 'do'   ;
-ENDWHILE  : 'endwhile';
-FUNC      : 'func' ;
-ENDFUNC   : 'endfunc';
-READ      : 'read'   ;
-WRITE     : 'write'  ;
-RETURN    : 'return' ;
-
-// LOGICAL TOKENS
+///// LOGICAL TOKENS /////
 AND       : 'and' ;
 OR        : 'or'  ;
 NOT       : 'not' ;
 
+///// RELATIONAL TOKENS /////
+EQUAL     : '==' ;
+NE        : '!=' ;
+GT        : '>'  ;
+GE        : '>=' ;
+LT        : '<'  ;
+LE        : '<=' ;
+
+///// ARITHMETIC TOKENS /////
+PLUS      : '+' ;
+MINUS     : '-' ;
+DIV       : '/' ;
+MUL       : '*' ;
+MODULO    : '%' ;
+
+///// KEYWORDS TOKENS /////
+
+// ARRAY
+VAR       : 'var'      ;
+ARRAY     : 'array'    ;
+OF        : 'of'       ;
+
+// VALUE TOKENS
+INT       : 'int'      ;
+FLOAT     : 'float'    ;
+BOOL      : 'bool'     ;
+CHAR      : 'char'     ;
+
+// CONTROL STRUCTURES
+IF        : 'if'       ;
+THEN      : 'then'     ;
+ELSE      : 'else'     ;
+ENDIF     : 'endif'    ;
+WHILE     : 'while'    ;
+DO        : 'do'       ;
+ENDWHILE  : 'endwhile' ;
+
+// FUNCTIONS
+FUNC      : 'func'     ;
+ENDFUNC   : 'endfunc'  ;
+READ      : 'read'     ;
+
+// I/O
+WRITE     : 'write'    ;
+RETURN    : 'return'   ;
+
 // VALUE TOKENS
 INTVAL    : ('0'..'9')+ ;
-BOOLVAL   : ('true'|'false');
-FLOATVAL  : ('0'..'9')+ '.' ('0'..'9')+;
+BOOLVAL   : ('true'|'false') ;
+FLOATVAL  : ('0'..'9')+ '.' ('0'..'9')+ ;
 CHARVAL   : '\'' ( ESC_SEQ | ~('\\'|'\'') ) '\'' ;
 
 // IDENTIFIER TOKEN
@@ -167,6 +176,8 @@ ID        : ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 
 // Strings (in quotes) with escape sequences
 STRING    : '"' ( ESC_SEQ | ~('\\'|'"') )* '"' ;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 fragment
 ESC_SEQ   : '\\' ('b'|'t'|'n'|'f'|'r'|'"'|'\''|'\\') ;
