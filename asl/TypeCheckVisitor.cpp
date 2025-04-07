@@ -39,7 +39,7 @@
 #include <string>
 
 // uncomment the following line to enable debugging messages with DEBUG*
-#define DEBUG_BUILD
+//#define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -100,9 +100,9 @@ std::any TypeCheckVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   // En caso contrario sera de tipo Void
   else tRet = Types.createVoidTy();
 
-  std::cout << "FuncCurrentTypeD: " << Types.to_string(tRet) << std::endl;
+  //std::cout << "FuncCurrentTypeD: " << Types.to_string(tRet) << std::endl;
   setCurrentFunctionTy(tRet);
-  std::cout << "FuncCurrentTypeG: " << Types.to_string(getCurrentFunctionTy()) << std::endl;
+  //std::cout << "FuncCurrentTypeG: " << Types.to_string(getCurrentFunctionTy()) << std::endl;
   
   visit(ctx->statements());
   Symbols.popScope();
@@ -237,10 +237,10 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
       else funcParam = Types.createErrorTy();
 
 
-      std::cout << "Expected Param Type: " <<  Types.to_string(funcParam) << std::endl ;
+      /*std::cout << "Expected Param Type: " <<  Types.to_string(funcParam) << std::endl ;
       std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
       std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.copyableTypes(funcParam, tParam)) << std::endl ;
-
+      */
 
       // Si los parametros no son Error y no son copiables -> ERROR
       if ((not Types.isErrorTy(tParam)) and
@@ -259,7 +259,7 @@ std::any TypeCheckVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
       Errors.numberOfParameters(ctx->ident());
   }
 
-  std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
+  //std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
   putTypeDecor(ctx, t);
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();
@@ -296,14 +296,14 @@ std::any TypeCheckVisitor::visitReturnStmt(AslParser::ReturnStmtContext *ctx) {
   DEBUG_ENTER();
   // Obtenemos el tipo de la funcion
   TypesMgr::TypeId tRet = getCurrentFunctionTy();
-  std::cout << "FuncType: " << Types.to_string(tRet) << std::endl;
+  //std::cout << "FuncType: " << Types.to_string(tRet) << std::endl;
 
   // Si es una funcion retornamos la evaluacion de la expresion
   if(ctx->expr()){
     // Obtenemos el tipo del Return
     visit(ctx->expr());
     TypesMgr::TypeId tExpr = getTypeDecor(ctx->expr());
-    std::cout << "Return Expresion Type: " << Types.to_string(tExpr) << std::endl;    
+    //std::cout << "Return Expresion Type: " << Types.to_string(tExpr) << std::endl;    
 
     // Si ninguno de los dos es un error y no son copiables -> ERROR
     if(not(Types.isErrorTy(tRet)) and not(Types.isErrorTy(tExpr)) and not(Types.copyableTypes(tRet, tExpr))) {
@@ -321,7 +321,7 @@ std::any TypeCheckVisitor::visitReturnStmt(AslParser::ReturnStmtContext *ctx) {
   }
 
   putTypeDecor(ctx, tRet);
-  std::cout << "Return Final Type: " << Types.to_string(tRet) << std::endl; 
+  //std::cout << "Return Final Type: " << Types.to_string(tRet) << std::endl; 
   DEBUG_EXIT();
   return 0;
 }
@@ -586,11 +586,11 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
       else funcParam = Types.createErrorTy();
 
 
-      std::cout << std::endl << "Function: " <<  ctx->getText() << std::endl ;
+      /*std::cout << std::endl << "Function: " <<  ctx->getText() << std::endl ;
       std::cout << "Expected Param Type: " <<  Types.to_string(funcParam) << std::endl ;
       std::cout << "Param Type: " << param->getText() << " " <<  Types.to_string(tParam) << std::endl ;
       std::cout << "Param Type Check: " << ((not Types.isErrorTy(tParam))) << " " <<  (not Types.copyableTypes(funcParam, tParam)) << std::endl ;
-        
+      */
 
       // Si los parametros no son Error y no son copiables -> ERROR
       if ((not Types.isErrorTy(tParam)) and
@@ -608,7 +608,7 @@ std::any TypeCheckVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
       Errors.numberOfParameters(ctx->ident());
   }
 
-  std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
+  //std::cout << "Function Type: " <<  Types.to_string(t) << std::endl ;
   putTypeDecor(ctx, t); 
   putIsLValueDecor(ctx, false);
   DEBUG_EXIT();

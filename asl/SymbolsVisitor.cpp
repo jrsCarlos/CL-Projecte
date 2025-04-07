@@ -102,7 +102,7 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
     // Si la funcion tiene parametros, alamacenamos sus tipos en lParamsTy
     if (ctx->parameters()){
       for(auto param : ctx->parameters()->parameter()){
-        std::cout << "Param Type Declaration into Scope: " << param->getText() << " " <<  Types.to_string(getTypeDecor(param)) << std::endl ;
+        //std::cout << "Param Type Declaration into Scope: " << param->getText() << " " <<  Types.to_string(getTypeDecor(param)) << std::endl ;
         lParamsTy.push_back(getTypeDecor(param));
       }
     }
@@ -116,10 +116,10 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
     else tRet = Types.createVoidTy();
 
 
-    std::cout << "Func Type Declaration: " << ident << " " <<  Types.to_string(tRet) << std::endl ;
+    //std::cout << "Func Type Declaration: " << ident << " " <<  Types.to_string(tRet) << std::endl ;
     int i = 1;
     for(auto p:lParamsTy){
-      std::cout << "Func Type Declaration Params: " << i << " " <<  Types.to_string(p) << std::endl ;
+      //std::cout << "Func Type Declaration Params: " << i << " " <<  Types.to_string(p) << std::endl ;
       ++i;
     }
 
@@ -149,7 +149,7 @@ std::any SymbolsVisitor::visitParameter(AslParser::ParameterContext *ctx) {
   }
   else {
     TypesMgr::TypeId t1 = getTypeDecor(ctx->type());
-    std::cout << "Param Type Declaration: " << ident << " " <<  Types.to_string(t1) << std::endl ;
+    //std::cout << "Param Type Declaration: " << ident << " " <<  Types.to_string(t1) << std::endl ;
     Symbols.addParameter(ident, t1);
     putTypeDecor(ctx, t1);
   }
