@@ -381,6 +381,17 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  FuncCallContext : public ExprContext {
+  public:
+    FuncCallContext(ExprContext *ctx);
+
+    IdentContext *ident();
+    std::vector<ExprContext *> expr();
+    ExprContext* expr(size_t i);
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  UnaryContext : public ExprContext {
   public:
     UnaryContext(ExprContext *ctx);
@@ -390,17 +401,6 @@ public:
     antlr4::tree::TerminalNode *NOT();
     antlr4::tree::TerminalNode *PLUS();
     antlr4::tree::TerminalNode *MINUS();
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-  };
-
-  class  FuncCallContext : public ExprContext {
-  public:
-    FuncCallContext(ExprContext *ctx);
-
-    IdentContext *ident();
-    std::vector<ExprContext *> expr();
-    ExprContext* expr(size_t i);
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };

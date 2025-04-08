@@ -204,16 +204,14 @@ std::any SymbolsVisitor::visitBasicType(AslParser::BasicTypeContext *ctx) {
 
 std::any SymbolsVisitor::visitType(AslParser::TypeContext *ctx) {
   DEBUG_ENTER();
-  TypesMgr::TypeId finalTy;
   visit(ctx->basicType());
 
-  if(ctx->ARRAY()){
+  TypesMgr::TypeId finalTy;
+  if (ctx->ARRAY()) {
     TypesMgr::TypeId elemTy = getTypeDecor(ctx->basicType());
     finalTy = Types.createArrayTy(stoi(ctx->INTVAL()->getText()), elemTy);
   }
-  else{
-    finalTy = getTypeDecor(ctx->basicType());
-  }
+  else finalTy = getTypeDecor(ctx->basicType());
   
   putTypeDecor(ctx, finalTy);
   DEBUG_EXIT();

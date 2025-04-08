@@ -103,11 +103,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitUnary(AslParser::UnaryContext *ctx) override {
+  virtual std::any visitFuncCall(AslParser::FuncCallContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitFuncCall(AslParser::FuncCallContext *ctx) override {
+  virtual std::any visitUnary(AslParser::UnaryContext *ctx) override {
     return visitChildren(ctx);
   }
 

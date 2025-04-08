@@ -63,9 +63,9 @@ public:
 
     virtual std::any visitRelational(AslParser::RelationalContext *context) = 0;
 
-    virtual std::any visitUnary(AslParser::UnaryContext *context) = 0;
-
     virtual std::any visitFuncCall(AslParser::FuncCallContext *context) = 0;
+
+    virtual std::any visitUnary(AslParser::UnaryContext *context) = 0;
 
     virtual std::any visitExprArray(AslParser::ExprArrayContext *context) = 0;
 
