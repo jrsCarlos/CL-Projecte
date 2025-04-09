@@ -100,7 +100,7 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
     std::vector<TypesMgr::TypeId> lParamsTy;
 
     // Si la funcion tiene parametros, alamacenamos sus tipos en lParamsTy
-    if (ctx->parameters()){
+    if (ctx->parameters()) {
       for(auto param : ctx->parameters()->parameter()){
         //std::cout << "Param Type Declaration into Scope: " << param->getText() << " " <<  Types.to_string(getTypeDecor(param)) << std::endl ;
         lParamsTy.push_back(getTypeDecor(param));

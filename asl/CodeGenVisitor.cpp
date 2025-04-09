@@ -101,8 +101,8 @@ std::any CodeGenVisitor::visitDeclarations(AslParser::DeclarationsContext *ctx) 
   DEBUG_ENTER();
   std::vector<var> lvars;
   for (auto & varDeclCtx : ctx->variable_decl()) {
-    var onevar = std::any_cast<var>(visit(varDeclCtx));
-    lvars.push_back(onevar);
+    std::vector<var> vars = std::any_cast<std::vector<var>> (visit(varDeclCtx));
+    for (auto & onevar : vars) lvars.push_back(onevar);
   }
   DEBUG_EXIT();
   return lvars;
@@ -112,10 +112,17 @@ std::any CodeGenVisitor::visitVariable_decl(AslParser::Variable_declContext *ctx
   DEBUG_ENTER();
   TypesMgr::TypeId   t1 = getTypeDecor(ctx->type());
   std::size_t      size = Types.getSizeOfType(t1);
+  std::vector<var> vars;
+
+  for (auto ID : ctx->ID()) {
+    // id->getText(): el nom de la variable id
+    // Types.to_string(t1): el tipus de la variables
+    // size: la mida del tipus de la variable
+    vars.push_back(var{ID->getText(), Types.to_string(t1), size})
+  }
+
   DEBUG_EXIT();
-  
-  // preguntar al profe
-  return var{ctx->ID(0)->getText(), Types.to_string(t1), size};
+  return vars;
 }
 
 std::any CodeGenVisitor::visitStatements(AslParser::StatementsContext *ctx) {
@@ -216,21 +223,40 @@ std::any CodeGenVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
 
 std::any CodeGenVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
   DEBUG_ENTER();
+  
   CodeAttribs     && codAt1 = std::any_cast<CodeAttribs>(visit(ctx->expr(0)));
   std::string         addr1 = codAt1.addr;
   instructionList &   code1 = codAt1.code;
+
   CodeAttribs     && codAt2 = std::any_cast<CodeAttribs>(visit(ctx->expr(1)));
   std::string         addr2 = codAt2.addr;
   instructionList &   code2 = codAt2.code;
   instructionList &&   code = code1 || code2;
-  // TypesMgr::TypeId t1 = getTypeDecor(ctx->expr(0));
-  // TypesMgr::TypeId t2 = getTypeDecor(ctx->expr(1));
-  // TypesMgr::TypeId  t = getTypeDecor(ctx);
+
+  TypesMgr::TypeId t1 = getTypeDecor(ctx->expr(0));
+  TypesMgr::TypeId t2 = getTypeDecor(ctx->expr(1));
+  TypesMgr::TypeId  t = getTypeDecor(ctx);
+
   std::string temp = "%"+codeCounters.newTEMP();
+  if (Types.isFloatTy(t1) or Types.isFloatTy(t2))
   if (ctx->MUL())
     code = code || instruction::MUL(temp, addr1, addr2);
-  else // (ctx->PLUS())
+  else if (ctx->DIV()) code = code || instruction::DIV(temp, addr1, addr2);
+  else if (ctx->MODULO()) {
+    std::string temp1 = "%"+codeCounters.newTEMP();
+    std::string temp2 = "%"+codeCounters.newTEMP();
+
+    code = code || instruction::DIV(temp1, addr1, addr2)
+                || instruction::MUL(temp2, temp1, addr2)
+                || instruction::SUB(temp,  addr1, temp2);
+  }
+  else if (ctx->PLUS()) {
     code = code || instruction::ADD(temp, addr1, addr2);
+  }
+  else {// (ctx->MINUS())
+    code = code || instruction::SUB(temp, addr1, addr2);
+  }
+    
   CodeAttribs codAts(temp, "", code);
   DEBUG_EXIT();
   return codAts;
@@ -279,12 +305,12 @@ std::any CodeGenVisitor::visitIdent(AslParser::IdentContext *ctx) {
   return codAts;
 }
 
-
 // Getters for the necessary tree node atributes:
 //   Scope and Type
 SymTable::ScopeId CodeGenVisitor::getScopeDecor(antlr4::ParserRuleContext *ctx) const {
   return Decorations.getScope(ctx);
 }
+
 TypesMgr::TypeId CodeGenVisitor::getTypeDecor(antlr4::ParserRuleContext *ctx) const {
   return Decorations.getType(ctx);
 }
