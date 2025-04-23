@@ -143,24 +143,16 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
   std::string           addr1 = codAtsE1.addr;
   // std::string           offs1 = codAtsE1.offs;
   instructionList &     code1 = codAtsE1.code;
-  TypesMgr::TypeId tid1 = getTypeDecor(ctx->left_expr());
+  //TypesMgr::TypeId tid1 = getTypeDecor(ctx->left_expr());
+  
   CodeAttribs     && codAtsE2 = std::any_cast<CodeAttribs>(visit(ctx->expr()));
   std::string           addr2 = codAtsE2.addr;
   // std::string           offs2 = codAtsE2.offs;
   instructionList &     code2 = codAtsE2.code;
-  TypesMgr::TypeId tid2 = getTypeDecor(ctx->expr());
+  //TypesMgr::TypeId tid2 = getTypeDecor(ctx->expr());
 
-  if (Types.isCharacterTy(tid1)) {
-  
-  }
-  else if (Types.isIntegerTy(tid1)) {
-
-  }
-  else if (Types.isFloatTy(tid1)) {
-
-  }
-  else if (Types.)
   code = code1 || code2 || instruction::LOAD(addr1, addr2);
+
   DEBUG_EXIT();
   return code;
 }
@@ -258,8 +250,7 @@ std::any CodeGenVisitor::visitUnary(AslParser::UnaryContext *ctx) {
 
   if (ctx->NOT()) code = code || instruction::NOT(temp,addr);
   else if (ctx->MINUS()) {
-    //if (Types.isFloatTy(t1)) code = code || instruction::FNEG(temp,addr);
-    if (Types.isFloatTy(t1)) code = code || instruction::FSUB(temp,"0",addr);
+    if (Types.isFloatTy(t1)) code = code || instruction::FNEG(temp,addr);
     else code = code || instruction::NEG(temp,addr);
   }
 
