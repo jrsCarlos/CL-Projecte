@@ -39,7 +39,7 @@
 #include <cstddef>    // std::size_t
 
 // uncomment the following line to enable debugging messages with DEBUG*
-// #define DEBUG_BUILD
+ #define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -226,6 +226,33 @@ std::any CodeGenVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
   DEBUG_EXIT();
   return codAts;
 }
+
+std::any CodeGenVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
+  DEBUG_ENTER();
+  CodeAttribs     && codAt1 = std::any_cast<CodeAttribs>(visit(ctx->expr()));
+  std::string         addr1 = codAt1.addr;
+  instructionList &   code1 = codAt1.code;
+
+  CodeAttribs     && codAt2 = std::any_cast<CodeAttribs>(visit(ctx->statements()));
+  std::string         addr2 = codAt2.addr;
+  instructionList &   code2 = codAt2.code;
+
+  instructionList code;
+  std::string label = codeCounters.newLabelWHILE();
+  std::string labelBeginWhile = "beginWhile" + label;
+  std::string labelEndWhile = "endWhile" + label;
+
+  code = code || instruction::LABEL(labelBeginWhile);
+  code = code || code1;
+  code = code || instruction::FJUMP(addr1,labelEndWhile);
+  code = code || code2;
+  code = code || instruction::UJUMP(labelBeginWhile);
+  code = code || instruction::LABEL(labelEndWhile);
+
+  DEBUG_EXIT();
+  return code;
+}
+
 
 std::any CodeGenVisitor::visitParent(AslParser::ParentContext *ctx) {
   DEBUG_ENTER();
