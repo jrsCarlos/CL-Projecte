@@ -1,104 +1,44 @@
->>> enter Program [source pos 1:0] [module: CodeGen]
-  >>> enter Function [source pos 1:0] [module: CodeGen]
-    >>> enter Declarations [source pos 2:4] [module: CodeGen]
-      >>> enter Variable_decl [source pos 2:4] [module: CodeGen]
-      >>> exit Variable_decl [source pos 2:4] [module: CodeGen]
-      >>> enter Variable_decl [source pos 3:4] [module: CodeGen]
-      >>> exit Variable_decl [source pos 3:4] [module: CodeGen]
-    >>> exit Declarations [source pos 2:4] [module: CodeGen]
-    >>> enter Statements [source pos 4:4] [module: CodeGen]
-      >>> enter ReadStmt [source pos 4:4] [module: CodeGen]
-        >>> enter Left_expr [source pos 4:9] [module: CodeGen]
-          >>> enter Ident [source pos 4:9] [module: CodeGen]
-          >>> exit Ident [source pos 4:9] [module: CodeGen]
-        >>> exit Left_expr [source pos 4:9] [module: CodeGen]
-      >>> exit ReadStmt [source pos 4:4] [module: CodeGen]
-      >>> enter AssignStmt [source pos 5:4] [module: CodeGen]
-        >>> enter Left_expr [source pos 5:4] [module: CodeGen]
-          >>> enter Ident [source pos 5:4] [module: CodeGen]
-          >>> exit Ident [source pos 5:4] [module: CodeGen]
-        >>> exit Left_expr [source pos 5:4] [module: CodeGen]
-        >>> enter ExprIdent [source pos 5:10] [module: CodeGen]
-          >>> enter Ident [source pos 5:10] [module: CodeGen]
-          >>> exit Ident [source pos 5:10] [module: CodeGen]
-        >>> exit ExprIdent [source pos 5:10] [module: CodeGen]
-      >>> exit AssignStmt [source pos 5:4] [module: CodeGen]
-      >>> enter IfStmt [source pos 6:4] [module: CodeGen]
-        >>> enter Relational [source pos 6:7] [module: CodeGen]
-          >>> enter ExprIdent [source pos 6:7] [module: CodeGen]
-            >>> enter Ident [source pos 6:7] [module: CodeGen]
-            >>> exit Ident [source pos 6:7] [module: CodeGen]
-          >>> exit ExprIdent [source pos 6:7] [module: CodeGen]
-          >>> enter Value [source pos 6:11] [module: CodeGen]
-          >>> exit Value [source pos 6:11] [module: CodeGen]
-        >>> exit Relational [source pos 6:7] [module: CodeGen]
-        >>> enter Statements [source pos 7:7] [module: CodeGen]
-          >>> enter WriteString [source pos 7:7] [module: CodeGen]
-          >>> exit WriteString [source pos 7:7] [module: CodeGen]
-          >>> enter AssignStmt [source pos 8:7] [module: CodeGen]
-            >>> enter Left_expr [source pos 8:7] [module: CodeGen]
-              >>> enter Ident [source pos 8:7] [module: CodeGen]
-              >>> exit Ident [source pos 8:7] [module: CodeGen]
-            >>> exit Left_expr [source pos 8:7] [module: CodeGen]
-            >>> enter Value [source pos 8:13] [module: CodeGen]
-            >>> exit Value [source pos 8:13] [module: CodeGen]
-          >>> exit AssignStmt [source pos 8:7] [module: CodeGen]
-        >>> exit Statements [source pos 7:7] [module: CodeGen]
-      >>> exit IfStmt [source pos 6:4] [module: CodeGen]
-      >>> enter AssignStmt [source pos 10:4] [module: CodeGen]
-        >>> enter Left_expr [source pos 10:4] [module: CodeGen]
-          >>> enter Ident [source pos 10:4] [module: CodeGen]
-          >>> exit Ident [source pos 10:4] [module: CodeGen]
-        >>> exit Left_expr [source pos 10:4] [module: CodeGen]
-        >>> enter Value [source pos 10:8] [module: CodeGen]
-        >>> exit Value [source pos 10:8] [module: CodeGen]
-      >>> exit AssignStmt [source pos 10:4] [module: CodeGen]
-      >>> enter WhileStmt [source pos 11:4] [module: CodeGen]
-        >>> enter Logical [source pos 11:10] [module: CodeGen]
-          >>> enter Unary [source pos 11:10] [module: CodeGen]
-            >>> enter ExprIdent [source pos 11:14] [module: CodeGen]
-              >>> enter Ident [source pos 11:14] [module: CodeGen]
-              >>> exit Ident [source pos 11:14] [module: CodeGen]
-            >>> exit ExprIdent [source pos 11:14] [module: CodeGen]
-          >>> exit Unary [source pos 11:10] [module: CodeGen]
-          >>> enter Relational [source pos 11:22] [module: CodeGen]
-            >>> enter ExprIdent [source pos 11:22] [module: CodeGen]
-              >>> enter Ident [source pos 11:22] [module: CodeGen]
-              >>> exit Ident [source pos 11:22] [module: CodeGen]
-            >>> exit ExprIdent [source pos 11:22] [module: CodeGen]
-            >>> enter Value [source pos 11:26] [module: CodeGen]
-            >>> exit Value [source pos 11:26] [module: CodeGen]
-          >>> exit Relational [source pos 11:22] [module: CodeGen]
-        >>> exit Logical [source pos 11:10] [module: CodeGen]
-        >>> enter Statements [source pos 12:8] [module: CodeGen]
-          >>> enter AssignStmt [source pos 12:8] [module: CodeGen]
-            >>> enter Left_expr [source pos 12:8] [module: CodeGen]
-              >>> enter Ident [source pos 12:8] [module: CodeGen]
-              >>> exit Ident [source pos 12:8] [module: CodeGen]
-            >>> exit Left_expr [source pos 12:8] [module: CodeGen]
-            >>> enter Arithmetic [source pos 12:12] [module: CodeGen]
-              >>> enter ExprIdent [source pos 12:12] [module: CodeGen]
-                >>> enter Ident [source pos 12:12] [module: CodeGen]
-                >>> exit Ident [source pos 12:12] [module: CodeGen]
-              >>> exit ExprIdent [source pos 12:12] [module: CodeGen]
-              >>> enter ExprIdent [source pos 12:16] [module: CodeGen]
-                >>> enter Ident [source pos 12:16] [module: CodeGen]
-                >>> exit Ident [source pos 12:16] [module: CodeGen]
-              >>> exit ExprIdent [source pos 12:16] [module: CodeGen]
-            >>> exit Arithmetic [source pos 12:12] [module: CodeGen]
-          >>> exit AssignStmt [source pos 12:8] [module: CodeGen]
-          >>> enter AssignStmt [source pos 13:8] [module: CodeGen]
-            >>> enter Left_expr [source pos 13:8] [module: CodeGen]
-              >>> enter Ident [source pos 13:8] [module: CodeGen]
-              >>> exit Ident [source pos 13:8] [module: CodeGen]
-            >>> exit Left_expr [source pos 13:8] [module: CodeGen]
-            >>> enter Arithmetic [source pos 13:12] [module: CodeGen]
-              >>> enter ExprIdent [source pos 13:12] [module: CodeGen]
-                >>> enter Ident [source pos 13:12] [module: CodeGen]
-                >>> exit Ident [source pos 13:12] [module: CodeGen]
-              >>> exit ExprIdent [source pos 13:12] [module: CodeGen]
-              >>> enter Value [source pos 13:16] [module: CodeGen]
-              >>> exit Value [source pos 13:16] [module: CodeGen]
-            >>> exit Arithmetic [source pos 13:12] [module: CodeGen]
-          >>> exit AssignStmt [source pos 13:8] [module: CodeGen]
-        >>> exit Statements [source pos 12:8] [module: CodeGen]
+function main
+  vars
+    n integer
+    f integer
+    aux integer
+    end boolean
+  endvars
+
+     readi n
+     aux = n
+     %1 = 0
+     %2 = n < %1
+     ifFalse %2 goto endif1
+     writes "n >= 0!\n"
+     %4 = true
+     end = %4
+  label endif1 :
+     %5 = 1
+     f = %5
+  label beginWhile1 :
+     %6 = not end
+     %7 = 1
+     %9 = n <= %7
+     %8 = not %9
+     %10 = %6 and %8
+     ifFalse %10 goto endWhile1
+     %11 = f * n
+     f = %11
+     %12 = 1
+     %13 = n - %12
+     n = %13
+     goto beginWhile1
+  label endWhile1 :
+     %14 = end == end
+     ifFalse %14 goto endif2
+     writei aux
+     writes "!="
+     writei f
+     writes "\n"
+  label endif2 :
+     return
+endfunction
+
+

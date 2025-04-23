@@ -39,7 +39,7 @@
 #include <cstddef>    // std::size_t
 
 // uncomment the following line to enable debugging messages with DEBUG*
- #define DEBUG_BUILD
+// #define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -233,9 +233,7 @@ std::any CodeGenVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
   std::string         addr1 = codAt1.addr;
   instructionList &   code1 = codAt1.code;
 
-  CodeAttribs     && codAt2 = std::any_cast<CodeAttribs>(visit(ctx->statements()));
-  std::string         addr2 = codAt2.addr;
-  instructionList &   code2 = codAt2.code;
+  instructionList && code2 = std::any_cast<instructionList>(visit(ctx->statements()));
 
   instructionList code;
   std::string label = codeCounters.newLabelWHILE();
@@ -252,7 +250,6 @@ std::any CodeGenVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
   DEBUG_EXIT();
   return code;
 }
-
 
 std::any CodeGenVisitor::visitParent(AslParser::ParentContext *ctx) {
   DEBUG_ENTER();
