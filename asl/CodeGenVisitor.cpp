@@ -253,6 +253,7 @@ std::any CodeGenVisitor::visitUnary(AslParser::UnaryContext *ctx) {
     if (Types.isFloatTy(t1)) code = code || instruction::FNEG(temp,addr);
     else code = code || instruction::NEG(temp,addr);
   }
+  else temp = addr;
 
   CodeAttribs codAts(temp, "", code);
   DEBUG_EXIT();
@@ -276,10 +277,18 @@ std::any CodeGenVisitor::visitArithmetic(AslParser::ArithmeticContext *ctx) {
 
   std::string temp = "%"+codeCounters.newTEMP();
   if (Types.isFloatTy(t1) or Types.isFloatTy(t2)) {
-    if (ctx->MUL()) code = code || instruction::FMUL(temp, addr1, addr2);
-    else if (ctx->DIV()) code = code || instruction::FDIV(temp, addr1, addr2);
-    else if (ctx->PLUS()) code = code || instruction::FADD(temp, addr1, addr2);
-    else code = code || instruction::FSUB(temp, addr1, addr2);
+    std::string temp1 = "%"+codeCounters.newTEMP();
+    std::string temp2 = "%"+codeCounters.newTEMP();
+
+    if (Types.isIntegerTy(t1)) code = code || instruction::FLOAT(temp1,addr1);
+    else temp1 = addr1;
+    if (Types.isIntegerTy(t2)) code = code || instruction::FLOAT(temp2,addr2);
+    else temp2 = addr2;
+
+    if (ctx->MUL()) code = code || instruction::FMUL(temp, temp1, temp2);
+    else if (ctx->DIV()) code = code || instruction::FDIV(temp, temp1, temp2);
+    else if (ctx->PLUS()) code = code || instruction::FADD(temp, temp1, temp2);
+    else code = code || instruction::FSUB(temp, temp1, temp2);
   }
   else {
     if (ctx->MUL()) code = code || instruction::MUL(temp, addr1, addr2);

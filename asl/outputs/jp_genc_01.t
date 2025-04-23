@@ -25,22 +25,25 @@ function main
    %15 = 3.3
    %16 = 1
    %17 = %16 / a
-   %18 = %15 +. %17
-   %19 = 2.0
-   %20 = -. %19
-   %21 = %20 /. a
-   %22 = %18 -. %21
-   pi = %22
-   %23 = a == b
-   %25 = %23 or end
-   writei %25
+   %20 = float %17
+   %18 = %15 +. %20
+   %21 = 2.0
+   %22 = -. %21
+   %25 = float a
+   %23 = %22 /. %25
+   %26 = %18 -. %23
+   pi = %26
+   %29 = a == b
+   %31 = %29 or end
+   writei %31
    writes "\n"
-   %26 = a * b
-   writei %26
+   %32 = a * b
+   writei %32
    writes "\n"
-   %27 = 2
-   %28 = %27 *. pi
-   writef %28
+   %33 = 2
+   %35 = float %33
+   %34 = %35 *. pi
+   writef %34
    writes "\n"
    return
 endfunction
