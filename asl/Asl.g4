@@ -100,7 +100,8 @@ expr    : '(' expr ')'                               # parent
         | INTVAL                                     # value
         | FLOATVAL                                   # value
         | CHARVAL                                    # value
-        | BOOLVAL                                    # value
+        | TRUEVAL                                    # value
+        | FALSEVAL                                   # value
         | ident                                      # exprIdent
         ;
 
@@ -167,7 +168,8 @@ RETURN    : 'return'   ;
 
 // VALUE TOKENS
 INTVAL    : ('0'..'9')+ ;
-BOOLVAL   : ('true'|'false') ;
+TRUEVAL   : 'true'  ;
+FALSEVAL  : 'false' ;
 FLOATVAL  : ('0'..'9')+ '.' ('0'..'9')+ ;
 CHARVAL   : '\'' ( ESC_SEQ | ~('\\'|'\'') ) '\'' ;
 

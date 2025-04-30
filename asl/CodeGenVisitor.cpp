@@ -391,10 +391,22 @@ std::any CodeGenVisitor::visitLogical(AslParser::LogicalContext *ctx) {
 }
 
 std::any CodeGenVisitor::visitValue(AslParser::ValueContext *ctx) {
+  // ch
+  // f
+  // i
+  // bool
   DEBUG_ENTER();
   instructionList code;
   std::string temp = "%"+codeCounters.newTEMP();
-  code = instruction::ILOAD(temp, ctx->getText());
+
+  if (ctx->INTVAL()) code = instruction::ILOAD(temp, ctx->getText());
+  else if (ctx->FLOATVAL()) code = instruction::FLOAD(temp, ctx->getText());
+  else if (ctx->CHARVAL()) code = instruction::CHLOAD(temp, ctx->getText());
+  else {
+    if (ctx->TRUEVAL()) code = instruction::ILOAD(temp, "1");
+    else code = instruction::ILOAD(temp, "0");
+  }
+
   CodeAttribs codAts(temp, "", code);
   DEBUG_EXIT();
   return codAts;

@@ -18,8 +18,8 @@ public:
     MODULO = 22, VAR = 23, ARRAY = 24, OF = 25, INT = 26, FLOAT = 27, BOOL = 28, 
     CHAR = 29, IF = 30, THEN = 31, ELSE = 32, ENDIF = 33, WHILE = 34, DO = 35, 
     ENDWHILE = 36, FUNC = 37, ENDFUNC = 38, READ = 39, WRITE = 40, RETURN = 41, 
-    INTVAL = 42, BOOLVAL = 43, FLOATVAL = 44, CHARVAL = 45, ID = 46, STRING = 47, 
-    COMMENT = 48, WS = 49
+    INTVAL = 42, TRUEVAL = 43, FALSEVAL = 44, FLOATVAL = 45, CHARVAL = 46, 
+    ID = 47, STRING = 48, COMMENT = 49, WS = 50
   };
 
   explicit AslLexer(antlr4::CharStream *input);
