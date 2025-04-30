@@ -39,7 +39,7 @@
 #include <cstddef>    // std::size_t
 
 // uncomment the following line to enable debugging messages with DEBUG*
- #define DEBUG_BUILD
+// #define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -101,7 +101,7 @@ std::any CodeGenVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   // Afegim els parametres
   if (ctx->parameters()) {
     for (auto param : ctx->parameters()->parameter()) {
-      std::string name = param->getText();
+      std::string name = param->ID()->getText();
       TypesMgr::TypeId type = getTypeDecor(param);
       subr.add_param(name,Types.to_string(type),false);
     }
@@ -285,6 +285,30 @@ std::any CodeGenVisitor::visitReturnStmt(AslParser::ReturnStmtContext *ctx) {
   code = code || instruction::RETURN();
   DEBUG_EXIT();
   return code;
+}
+
+std::any CodeGenVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
+  DEBUG_ENTER();
+  instructionList codeFinal;
+  instructionList codePush;
+  instructionList codePop;
+  codeFinal = codeFinal || instruction::PUSH();
+  for (auto expr : ctx->expr()) {
+    CodeAttribs     && codAtPush = std::any_cast<CodeAttribs>(visit(expr));
+    std::string         addrPush = codAtPush.addr;
+    //instructionList     codePush = codAtPush.code;    
+    codePush = codePush || instruction::PUSH(addrPush);
+    codePop  = codePop  || instruction::POP();
+  }
+  std::string funcName = ctx->ident()->getText();
+  codeFinal = codeFinal ||codePush || instruction::CALL(funcName) || codePop;
+
+  std::string temp = "%"+codeCounters.newTEMP();
+  codeFinal = codeFinal || instruction::POP(temp);
+
+  CodeAttribs codAts(temp, "", codeFinal);
+  DEBUG_EXIT();
+  return codAts;
 }
 
 std::any CodeGenVisitor::visitParent(AslParser::ParentContext *ctx) {

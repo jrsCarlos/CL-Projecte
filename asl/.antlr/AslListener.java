@@ -1,4 +1,4 @@
-// Generated from /home2/users/alumnes/1253874/dades/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
+// Generated from /home2/users/alumnes/1278170/Documents/CL/Git/CL-Projecte/asl/Asl.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -251,18 +251,6 @@ public interface AslListener extends ParseTreeListener {
 	 */
 	void exitRelational(AslParser.RelationalContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code unary}
-	 * labeled alternative in {@link AslParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterUnary(AslParser.UnaryContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code unary}
-	 * labeled alternative in {@link AslParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitUnary(AslParser.UnaryContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code funcCall}
 	 * labeled alternative in {@link AslParser#expr}.
 	 * @param ctx the parse tree
@@ -274,6 +262,18 @@ public interface AslListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFuncCall(AslParser.FuncCallContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unary}
+	 * labeled alternative in {@link AslParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnary(AslParser.UnaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unary}
+	 * labeled alternative in {@link AslParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnary(AslParser.UnaryContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code exprArray}
 	 * labeled alternative in {@link AslParser#expr}.
