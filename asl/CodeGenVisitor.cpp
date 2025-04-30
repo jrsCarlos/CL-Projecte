@@ -81,15 +81,37 @@ std::any CodeGenVisitor::visitProgram(AslParser::ProgramContext *ctx) {
 
 std::any CodeGenVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   DEBUG_ENTER();
+  // Crea el nuevo entorno para la funcion
   SymTable::ScopeId sc = getScopeDecor(ctx);
+  // Añadimos el nuevo entorno a la tabla de simbolos
+  // de ahora en adelante todo se procesara dentro de este nuevo entorno
   Symbols.pushThisScope(sc);
+
+  // Pillamos el nombre de la funcion y cremos la subrutina
   subroutine subr(ctx->ID()->getText());
+
+  // Limpiamos todo antes de comenzar
   codeCounters.reset();
-  std::vector<var> && lvars = std::any_cast<std::vector<var>>(visit(ctx->declarations()));
-  for (auto & onevar : lvars) {
-    subr.add_var(onevar);
+
+  // El primer parametro que anadimos simepre es el return
+  if (ctx->type()) {
+    TypesMgr::TypeId returnTy = getTypeDecor(ctx->type());
+    subr.add_param("return_value",Types.to_string(returnTy),false);
   }
+  // Afegim els parametres
+  if (ctx->parameters()) {
+    for (auto param : ctx->parameters()->parameter()) {
+      std::string name = param->getText();
+      TypesMgr::TypeId type = getTypeDecor(param);
+      subr.add_param(name,Types.to_string(type),false);
+    }
+  }
+
+  std::vector<var> && lvars = std::any_cast<std::vector<var>>(visit(ctx->declarations()));
+  for (auto & onevar : lvars) subr.add_var(onevar);
+
   instructionList && code = std::any_cast<instructionList>(visit(ctx->statements()));
+
   code = code || instruction(instruction::RETURN());
   subr.set_instructions(code);
   Symbols.popScope();
