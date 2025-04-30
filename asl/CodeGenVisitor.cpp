@@ -39,7 +39,7 @@
 #include <cstddef>    // std::size_t
 
 // uncomment the following line to enable debugging messages with DEBUG*
-// #define DEBUG_BUILD
+ #define DEBUG_BUILD
 #include "../common/debug.h"
 
 // using namespace std;
@@ -96,7 +96,7 @@ std::any CodeGenVisitor::visitFunction(AslParser::FunctionContext *ctx) {
   // El primer parametro que anadimos simepre es el return
   if (ctx->type()) {
     TypesMgr::TypeId returnTy = getTypeDecor(ctx->type());
-    subr.add_param("return_value",Types.to_string(returnTy),false);
+    subr.add_param("_return_value",Types.to_string(returnTy),false);
   }
   // Afegim els parametres
   if (ctx->parameters()) {
@@ -269,6 +269,20 @@ std::any CodeGenVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
   code = code || instruction::UJUMP(labelBeginWhile);
   code = code || instruction::LABEL(labelEndWhile);
 
+  DEBUG_EXIT();
+  return code;
+}
+
+std::any CodeGenVisitor::visitReturnStmt(AslParser::ReturnStmtContext *ctx) {
+  DEBUG_ENTER();
+  instructionList code;
+  if (ctx->expr()) {
+    CodeAttribs     && codeAtt = std::any_cast<CodeAttribs>(visit(ctx->expr()));
+    std::string           addr = codeAtt.addr;
+    instructionList &    code1 = codeAtt.code;
+    code = code1 || instruction::LOAD("_return_value", addr);
+  }
+  code = code || instruction::RETURN();
   DEBUG_EXIT();
   return code;
 }
