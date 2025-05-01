@@ -5,10 +5,10 @@ func f1(a: int, b:int)
     found = false;
     c = a+0.7; d = 0;
     if a+d>c or not found then
-        while b > 0 do
-	   b = b-1;
-	   found = true;
-	endwhile
+        write "\n";
+	
+    else
+        write "\n";
     endif
     if b <= 11 then
         c = 2*c + 1;

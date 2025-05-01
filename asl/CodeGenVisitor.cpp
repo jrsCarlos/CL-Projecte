@@ -165,17 +165,25 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
   instructionList code;
   CodeAttribs     && codAtsE1 =  std::any_cast<CodeAttribs>(visit(ctx->left_expr()));
   std::string           addr1 = codAtsE1.addr;
-  // std::string           offs1 = codAtsE1.offs;
+  std::string           offs1 = codAtsE1.offs;
   instructionList &     code1 = codAtsE1.code;
-  //TypesMgr::TypeId tid1 = getTypeDecor(ctx->left_expr());
+  TypesMgr::TypeId tid1 = getTypeDecor(ctx->left_expr());
   
   CodeAttribs     && codAtsE2 = std::any_cast<CodeAttribs>(visit(ctx->expr()));
   std::string           addr2 = codAtsE2.addr;
-  // std::string           offs2 = codAtsE2.offs;
+  std::string           offs2 = codAtsE2.offs;
   instructionList &     code2 = codAtsE2.code;
-  //TypesMgr::TypeId tid2 = getTypeDecor(ctx->expr());
+  TypesMgr::TypeId tid2 = getTypeDecor(ctx->expr());
 
-  code = code1 || code2 || instruction::LOAD(addr1, addr2);
+  if(Types.isArrayTy(tid1)){
+    code = code1 || code2 || instruction::XLOAD(addr1, offs1, addr2);
+  }
+  //calcular en el left expressio offset(addr.expr * size(tipo), addr(addr.id), code(code.expr))
+  //hacer if si a[] = b[]
+  else{
+    code = code1 || code2 || instruction::LOAD(addr1, addr2);
+
+  }
 
   DEBUG_EXIT();
   return code;
@@ -190,8 +198,19 @@ std::any CodeGenVisitor::visitIfStmt(AslParser::IfStmtContext *ctx) {
   instructionList &&   code2 = std::any_cast<instructionList>(visit(ctx->statements(0)));
   std::string label = codeCounters.newLabelIF();
   std::string labelEndIf = "endif"+label;
-  code = code1 || instruction::FJUMP(addr1, labelEndIf) ||
-         code2 || instruction::LABEL(labelEndIf);
+  if(ctx->ELSE()){
+    instructionList &&   codeStmtElse = std::any_cast<instructionList>(visit(ctx->statements(1)));
+    std::string labelEndElse = "endelse"+label;
+    code = code1 || instruction::FJUMP(addr1, labelEndIf) ||
+         code2 || instruction::UJUMP(labelEndElse) || instruction::LABEL(labelEndIf) || 
+         codeStmtElse || instruction::LABEL(labelEndElse);
+  }
+  else{
+    code = code1 || instruction::FJUMP(addr1, labelEndIf) || code2 || instruction::LABEL(labelEndIf);
+  }
+
+
+
   DEBUG_EXIT();
   return code;
 }
@@ -295,12 +314,30 @@ std::any CodeGenVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
   instructionList codePush;
   instructionList codePop;
   codeFinal = codeFinal || instruction::PUSH();
+
+  TypesMgr::TypeId funcID = getTypeDecor(ctx->ident());
+
+  uint i = 0;
   for (auto expr : ctx->expr()) {
+
+    TypesMgr::TypeId tParam = getTypeDecor(expr);
+    TypesMgr::TypeId expectedParam = Types.getParameterType(funcID,i);
+
+
     CodeAttribs     && codAtPush = std::any_cast<CodeAttribs>(visit(expr));
     std::string         addrPush = codAtPush.addr;
-    instructionList     code = codAtPush.code;    
-    codePush = code || codePush || instruction::PUSH(addrPush);
+    instructionList     code = codAtPush.code;         
+
+
+    codePush = codePush || code;
+
+    if(Types.isFloatTy(expectedParam) and Types.isIntegerTy(tParam)) 
+      codePush = codePush || instruction::FLOAT(addrPush, addrPush);
+
+    codePush = codePush || instruction::PUSH(addrPush);
     codePop  = codePop  || instruction::POP();
+
+    ++i;
   }
   std::string funcName = ctx->ident()->getText();
   codeFinal = codeFinal ||codePush || instruction::CALL(funcName) || codePop;
@@ -319,13 +356,34 @@ std::any CodeGenVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
   instructionList codePush;
   instructionList codePop;
   codeFinal = codeFinal || instruction::PUSH();
+
+  TypesMgr::TypeId funcID = getTypeDecor(ctx->ident());
+
+  uint i = 0;
   for (auto expr : ctx->expr()) {
+
+    TypesMgr::TypeId tParam = getTypeDecor(expr);
+    TypesMgr::TypeId expectedParam = Types.getParameterType(funcID,i);
+
+
     CodeAttribs     && codAtPush = std::any_cast<CodeAttribs>(visit(expr));
     std::string         addrPush = codAtPush.addr;
-    instructionList     code = codAtPush.code;    
-    codePush = code || codePush || instruction::PUSH(addrPush);
+    instructionList     code = codAtPush.code;         
+
+
+//añadir en fyunc call
+    codePush = codePush || code;
+
+    if(Types.isFloatTy(expectedParam) and Types.isIntegerTy(tParam)) 
+      codePush = codePush || instruction::FLOAT(addrPush, addrPush);
+
+    codePush = codePush || instruction::PUSH(addrPush);
     codePop  = codePop  || instruction::POP();
+
+    ++i;
   }
+
+
   std::string funcName = ctx->ident()->getText();
   codeFinal = codeFinal ||codePush || instruction::CALL(funcName) || codePop;
 
