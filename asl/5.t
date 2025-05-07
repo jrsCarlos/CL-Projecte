@@ -8,39 +8,42 @@ function f
   vars
     x integer
     y boolean
-    z array<10,integer> 10
+    z integer 10
   endvars
 
      %1 = 9
      %2 = 67
      %3 = a + %2
-     z = %3
+     z[%1] = %3
      %4 = 34
      x = %4
      %5 = 3
      %6 = 56
      %7 = 9
-     %8 = %6 + z
-     z = %8
-     %9 = 3
-     %12 = float z
-     %11 = %12 <=. b
-     %10 = not %11
-     ifFalse %10 goto endif1
-     %14 = 78
-     x = %14
+     %8 = z[%7]
+     %9 = %6 + %8
+     z[%5] = %9
+     %10 = 3
+     %11 = z[%10]
+     %14 = float %11
+     %13 = %14 <=. b
+     %12 = not %13
+     ifFalse %12 goto endif1
+     %16 = 78
+     x = %16
      writef b
      writes "\n"
      goto endelse1
   label endif1 :
-     %15 = 99
-     x = %15
+     %17 = 99
+     x = %17
   label endelse1 :
-     %16 = 3
-     writei z
+     %18 = 3
+     %19 = z[%18]
+     writei %19
      writes "\n"
-     %17 = 1
-     _return_value = %17
+     %20 = 1
+     _return_value = %20
      return
      return
 endfunction
