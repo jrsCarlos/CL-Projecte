@@ -79,6 +79,7 @@ public:
   std::any visitExprIdent(AslParser::ExprIdentContext *ctx);
   std::any visitWhileStmt(AslParser::WhileStmtContext *ctx);
   std::any visitReturnStmt(AslParser::ReturnStmtContext *ctx);
+  std::any visitExprArray(AslParser::ExprArrayContext *ctx);
 
   std::any visitFuncCall(AslParser::FuncCallContext *ctx);
   std::any visitParent(AslParser::ParentContext *ctx);

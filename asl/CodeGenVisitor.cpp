@@ -175,15 +175,20 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
   instructionList &     code2 = codAtsE2.code;
   TypesMgr::TypeId tid2 = getTypeDecor(ctx->expr());
 
-  if(Types.isArrayTy(tid1)){
-    code = code1 || code2 || instruction::XLOAD(addr1, offs1, addr2);
-  }
   //calcular en el left expressio offset(addr.expr * size(tipo), addr(addr.id), code(code.expr))
   //hacer if si a[] = b[]
-  else{
-    code = code1 || code2 || instruction::LOAD(addr1, addr2);
-
+  if(Types.isArrayTy(tid1) and Types.isArrayTy(tid2)){
+    std::string temp = "%"+codeCounters.newTEMP();
+    code = code1 || code2 || instruction::LOADX(temp, offs2, addr2);
+    code = code  || instruction::XLOAD(addr1, offs1, temp);
   }
+  else if (Types.isArrayTy(tid1)) {
+    code = code1 || code2 || instruction::XLOAD(addr1, offs1, addr2);
+  }
+  else if (Types.isArrayTy(tid2)) {
+    code = code1 || code2 || instruction::LOADX(addr1, offs2, addr2);
+  }
+  else code = code1 || code2 || instruction::LOAD(addr1, addr2);
 
   DEBUG_EXIT();
   return code;
@@ -266,8 +271,39 @@ std::any CodeGenVisitor::visitWriteString(AslParser::WriteStringContext *ctx) {
 std::any CodeGenVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
   DEBUG_ENTER();
   CodeAttribs && codAts = std::any_cast<CodeAttribs>(visit(ctx->ident()));
+  std::string         addr = codAts.addr;
+  instructionList &   code = codAts.code;
+
+  std::string addrOff = "";
+  if (ctx->expr()) {
+    CodeAttribs     && codAt1 = std::any_cast<CodeAttribs>(visit(ctx->expr()));
+    addrOff = codAt1.addr;
+    instructionList &   code1 = codAt1.code;
+    code = code || code1;
+  }
+
+  CodeAttribs codFinal(addr, addrOff, code);
   DEBUG_EXIT();
-  return codAts;
+  return codFinal;
+}
+
+std::any CodeGenVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
+  DEBUG_ENTER();
+  CodeAttribs && codAts = std::any_cast<CodeAttribs>(visit(ctx->ident()));
+  std::string         addr = codAts.addr;
+  instructionList &   code = codAts.code;
+
+  std::string addrOff = "";
+  if (ctx->expr()) {
+    CodeAttribs     && codAt1 = std::any_cast<CodeAttribs>(visit(ctx->expr()));
+    addrOff = codAt1.addr;
+    instructionList &   code1 = codAt1.code;
+    code = code || code1;
+  }
+  
+  CodeAttribs codFinal(addr, addrOff, code);
+  DEBUG_EXIT();
+  return codFinal;
 }
 
 std::any CodeGenVisitor::visitWhileStmt(AslParser::WhileStmtContext *ctx) {
