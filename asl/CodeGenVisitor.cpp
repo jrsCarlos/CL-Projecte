@@ -179,17 +179,21 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
   std::string           offs2 = codAtsE2.offs;
   instructionList &     code2 = codAtsE2.code;
   TypesMgr::TypeId tid2 = getTypeDecor(ctx->expr());
-
-  //calcular en el left expressio offset(addr.expr * size(tipo), addr(addr.id), code(code.expr))
-  //hacer if si a[] = b[]
   std:: string temp = '%' +codeCounters.newTEMP();
   code = code1 || code2;
+
+  // Asignacion de dos arrays
+  if (Types.isArrayTy(tid1) and Types.isArrayTy(tid2)) {
+
+  }
+
   if (Types.isFloatTy(tid1) and Types.isIntegerTy(tid2)) {
     code = code || instruction::FLOAT(temp,addr2);
     addr2 = temp;
   }
 
   if (ctx->left_expr()->expr()) {
+    // A[expr] = n
     code = code || instruction::XLOAD(addr1, offs1, addr2);
   }
   else code = code || instruction::LOAD(addr1, addr2);
@@ -278,6 +282,7 @@ std::any CodeGenVisitor::visitWriteExpr(AslParser::WriteExprContext *ctx) {
   //   else code = code1 || instruction::WRITEI(addr1);
   // }
   // else {
+
     if (Types.isCharacterTy(tid1)) code = code || instruction::WRITEC(addr1);
     else if (Types.isFloatTy(tid1)) code = code || instruction::WRITEF(addr1);
     else code = code1 || instruction::WRITEI(addr1);
@@ -644,7 +649,7 @@ std::any CodeGenVisitor::visitValue(AslParser::ValueContext *ctx) {
 
   if (ctx->INTVAL()) code = instruction::ILOAD(temp, ctx->getText());
   else if (ctx->FLOATVAL()) code = instruction::FLOAD(temp, ctx->getText());
-  else if (ctx->CHARVAL()) code = instruction::CHLOAD(temp, ctx->getText());
+  else if (ctx->CHARVAL()) code = instruction::LOAD(temp, ctx->getText());
   else {
     if (ctx->TRUEVAL()) code = instruction::ILOAD(temp, "1");
     else code = instruction::ILOAD(temp, "0");
