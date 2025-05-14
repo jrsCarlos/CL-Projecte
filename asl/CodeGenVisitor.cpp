@@ -184,7 +184,7 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
 
   // Asignacion de dos arrays
   if (Types.isArrayTy(tid1) and Types.isArrayTy(tid2)) {
-
+    
   }
 
   if (Types.isFloatTy(tid1) and Types.isIntegerTy(tid2)) {
