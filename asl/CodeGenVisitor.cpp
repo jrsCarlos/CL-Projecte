@@ -184,15 +184,37 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
 
   // Asignacion de dos arrays
   if (Types.isArrayTy(tid1) and Types.isArrayTy(tid2)) {
+
+  std::string label = codeCounters.newLabelWHILE();
+  std::string labelBeginAssing = "beginAssign" + label;
+  std::string labelEndAssign = "endAssign" + label;
+
+  std::string counter = "%"+codeCounters.newTEMP();
+  std::string condition = "%"+codeCounters.newTEMP();
+  std::string sizeArray = "%"+codeCounters.newTEMP();
+  std::string one = "%"+codeCounters.newTEMP();
+  std::string tempAux = "%"+codeCounters.newTEMP();
+
+  code = code || instruction::ILOAD(counter, "0");
+  code = code || instruction::ILOAD(sizeArray, std::to_string (Types.getArraySize(tid1)));
+  code = code || instruction::ILOAD(one, "1");
+  code = code || instruction::LABEL(labelBeginAssing);
+  code = code || instruction::LT(condition, counter, sizeArray);
+  code = code || instruction::FJUMP(condition,labelEndAssign);
+  code = code || instruction::LOADX(tempAux, addr2, counter);
+  code = code || instruction::XLOAD(addr1, counter, tempAux);
+  code = code || instruction::ADD(counter, counter, one);
+  code = code || instruction::UJUMP(labelBeginAssing);
+  code = code || instruction::LABEL(labelEndAssign);
     
   }
 
-  if (Types.isFloatTy(tid1) and Types.isIntegerTy(tid2)) {
+  else if (Types.isFloatTy(tid1) and Types.isIntegerTy(tid2)) {
     code = code || instruction::FLOAT(temp,addr2);
     addr2 = temp;
   }
 
-  if (ctx->left_expr()->expr()) {
+  else if (ctx->left_expr()->expr()) {
     // A[expr] = n
     code = code || instruction::XLOAD(addr1, offs1, addr2);
   }
