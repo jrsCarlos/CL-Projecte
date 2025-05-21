@@ -208,18 +208,18 @@ std::any CodeGenVisitor::visitAssignStmt(AslParser::AssignStmtContext *ctx) {
   code = code || instruction::LABEL(labelEndAssign);
     
   }
+  else{
+    if (Types.isFloatTy(tid1) and Types.isIntegerTy(tid2)) {
+      code = code || instruction::FLOAT(temp,addr2);
+      addr2 = temp;
+    }
 
-  else if (Types.isFloatTy(tid1) and Types.isIntegerTy(tid2)) {
-    code = code || instruction::FLOAT(temp,addr2);
-    addr2 = temp;
-  }
-
-  else if (ctx->left_expr()->expr()) {
-    // A[expr] = n
-    code = code || instruction::XLOAD(addr1, offs1, addr2);
-  }
+    if (ctx->left_expr()->expr()) {
+      // A[expr] = n
+      code = code || instruction::XLOAD(addr1, offs1, addr2);
+    }
   else code = code || instruction::LOAD(addr1, addr2);
-
+  }
   DEBUG_EXIT();
   return code;
 }
@@ -335,12 +335,6 @@ std::any CodeGenVisitor::visitLeft_expr(AslParser::Left_exprContext *ctx) {
     addrOff = codAt1.addr;
     instructionList &   code1 = codAt1.code;
     code = code || code1;
-
-    std::string arrName = ctx->ident()->getText();
-    if (Symbols.isParameterClass(arrName)) {
-      temp = "%"+codeCounters.newTEMP();
-      code = code || instruction::LOAD(temp,addr);
-    }
   }
 
   CodeAttribs codFinal(temp, addrOff, code);
@@ -358,15 +352,9 @@ std::any CodeGenVisitor::visitExprArray(AslParser::ExprArrayContext *ctx) {
   std::string         addrOff = codAt1.addr;
   instructionList &   codeOff = codAt1.code;
 
-  std::string arrName = ctx->ident()->getText();
-  std::string tempPointer = addr;
-  if (Symbols.isParameterClass(arrName)) {
-    tempPointer = "%"+codeCounters.newTEMP();
-    code = code || instruction::LOAD(tempPointer,addr);
-  }
 
   std::string temp = "%"+codeCounters.newTEMP();
-  code = code || codeOff || instruction::LOADX(temp, tempPointer, addrOff);
+  code = code || codeOff || instruction::LOADX(temp, addr, addrOff);
   CodeAttribs codFinal(temp, "", code);
   DEBUG_EXIT();
   return codFinal;
@@ -434,7 +422,11 @@ std::any CodeGenVisitor::visitFuncCall(AslParser::FuncCallContext *ctx) {
 
     if (Types.isArrayTy(tParam)) {
       std::string temp = "%"+codeCounters.newTEMP();
+      if(not Symbols.isParameterClass(ctx->expr(i)->getText()))
       codePush = codePush || instruction::ALOAD(temp,addrPush) || instruction::PUSH(temp);
+
+      else
+      codePush = codePush || instruction::PUSH(addrPush);
     }
     else codePush = codePush || instruction::PUSH(addrPush);
 
@@ -477,7 +469,11 @@ std::any CodeGenVisitor::visitProcCall(AslParser::ProcCallContext *ctx) {
 
     if (Types.isArrayTy(tParam)) {
       std::string temp = "%"+codeCounters.newTEMP();
+      if(not Symbols.isParameterClass(ctx->expr(i)->getText()))
       codePush = codePush || instruction::ALOAD(temp,addrPush) || instruction::PUSH(temp);
+
+      else
+      codePush = codePush || instruction::PUSH(addrPush);
     }
     else codePush = codePush || instruction::PUSH(addrPush);
 
@@ -692,6 +688,20 @@ std::any CodeGenVisitor::visitExprIdent(AslParser::ExprIdentContext *ctx) {
 std::any CodeGenVisitor::visitIdent(AslParser::IdentContext *ctx) {
   DEBUG_ENTER();
   CodeAttribs codAts(ctx->ID()->getText(), "", instructionList());
+
+  std::string     &   addr = codAts.addr;
+  instructionList &   code = codAts.code;
+
+  if(Types.isArrayTy(getTypeDecor(ctx))){
+    std::string arrName = ctx->ID()->getText();
+    std::string tempPointer = addr;
+    if (Symbols.isParameterClass(arrName)) {
+      tempPointer = "%"+codeCounters.newTEMP();
+      code = code || instruction::LOAD(tempPointer,addr);
+      addr = tempPointer;
+    }
+
+  }
   DEBUG_EXIT();
   return codAts;
 }

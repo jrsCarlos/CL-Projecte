@@ -8,35 +8,36 @@ function f
     i integer
   endvars
 
-     %2 = 0
-     %4 = 10
-     %5 = 1
+     %1 = v
+     %3 = 0
+     %5 = 10
+     %6 = 1
   label beginAssign1 :
-     %3 = %2 < %4
-     ifFalse %3 goto endAssign1
-     %6 = v[%2]
-     c[%2] = %6
-     %2 = %2 + %5
+     %4 = %3 < %5
+     ifFalse %4 goto endAssign1
+     %7 = %1[%3]
+     c[%3] = %7
+     %3 = %3 + %6
      goto beginAssign1
   label endAssign1 :
      writes "en f. c: "
-     %7 = 0
-     i = %7
+     %8 = 0
+     i = %8
   label beginWhile2 :
-     %9 = 10
-     %10 = i < %9
-     ifFalse %10 goto endWhile2
-     %12 = c[i]
-     writei %12
-     %13 = ' '
-     writec %13
-     %14 = 1
-     %15 = i + %14
-     i = %15
+     %10 = 10
+     %11 = i < %10
+     ifFalse %11 goto endWhile2
+     %13 = c[i]
+     writei %13
+     %14 = ' '
+     writec %14
+     %15 = 1
+     %16 = i + %15
+     i = %16
      goto beginWhile2
   label endWhile2 :
-     %17 = '\n'
-     writec %17
+     %18 = '\n'
+     writec %18
      return
 endfunction
 
