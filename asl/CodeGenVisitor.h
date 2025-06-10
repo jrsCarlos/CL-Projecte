@@ -62,34 +62,41 @@ public:
                  SymTable       & Symbols,
                  TreeDecoration & Decorations);
 
-  // Methods to visit each kind of node:
+  ////////////////////////////////////////////////////////////////////////////
+  
   std::any visitProgram(AslParser::ProgramContext *ctx);
   std::any visitFunction(AslParser::FunctionContext *ctx);
   std::any visitDeclarations(AslParser::DeclarationsContext *ctx);
   std::any visitVariable_decl(AslParser::Variable_declContext *ctx);
   // std::any visitType(AslParser::TypeContext *ctx);
+
+  //////////////////////////////// STATEMENTS ////////////////////////////////
+
   std::any visitStatements(AslParser::StatementsContext *ctx);
   std::any visitAssignStmt(AslParser::AssignStmtContext *ctx);
   std::any visitIfStmt(AslParser::IfStmtContext *ctx);
+  std::any visitWhileStmt(AslParser::WhileStmtContext *ctx);
   std::any visitProcCall(AslParser::ProcCallContext *ctx);
   std::any visitReadStmt(AslParser::ReadStmtContext *ctx);
   std::any visitWriteExpr(AslParser::WriteExprContext *ctx);
   std::any visitWriteString(AslParser::WriteStringContext *ctx);
-  std::any visitLeft_expr(AslParser::Left_exprContext *ctx);
-  std::any visitExprIdent(AslParser::ExprIdentContext *ctx);
-  std::any visitWhileStmt(AslParser::WhileStmtContext *ctx);
   std::any visitReturnStmt(AslParser::ReturnStmtContext *ctx);
-  std::any visitExprArray(AslParser::ExprArrayContext *ctx);
 
-  std::any visitFuncCall(AslParser::FuncCallContext *ctx);
+  //////////////////////////////// EXPRESIONS ////////////////////////////////
+
+  std::any visitLeft_expr(AslParser::Left_exprContext *ctx);
   std::any visitParent(AslParser::ParentContext *ctx);
+  std::any visitExprArray(AslParser::ExprArrayContext *ctx);
+  std::any visitFuncCall(AslParser::FuncCallContext *ctx);
   std::any visitUnary(AslParser::UnaryContext *ctx);
   std::any visitArithmetic(AslParser::ArithmeticContext *ctx);
   std::any visitRelational(AslParser::RelationalContext *ctx);
   std::any visitLogical(AslParser::LogicalContext *ctx);
-  
   std::any visitValue(AslParser::ValueContext *ctx);
+  std::any visitExprIdent(AslParser::ExprIdentContext *ctx);
   std::any visitIdent(AslParser::IdentContext *ctx);
+
+  ////////////////////////////////////////////////////////////////////////////
 
 private:
 

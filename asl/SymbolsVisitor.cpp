@@ -117,11 +117,11 @@ std::any SymbolsVisitor::visitFunction(AslParser::FunctionContext *ctx) {
 
 
     //std::cout << "Func Type Declaration: " << ident << " " <<  Types.to_string(tRet) << std::endl ;
-    int i = 1;
-    for(auto p:lParamsTy){
-      //std::cout << "Func Type Declaration Params: " << i << " " <<  Types.to_string(p) << std::endl ;
-      ++i;
-    }
+    //int i = 1;
+    //for(auto p:lParamsTy) {
+    //  //std::cout << "Func Type Declaration Params: " << i << " " <<  Types.to_string(p) << std::endl ;
+    //  ++i;
+    //}
 
 
     TypesMgr::TypeId tFunc = Types.createFunctionTy(lParamsTy, tRet);

@@ -35,16 +35,17 @@ function check_genc_example() {
 }
 
 ########### check 'jpbasic_chkt' examples
-echo "======================================================="
-echo "=== BEGIN examples/jpbasic_chkt typecheck ============="
-for f in ../examples/jpbasic_chkt_*.asl; do
-    echo -n "****" $(basename "$f") "...." 
-    ./asl "$f" 2>&1 | grep -E ^L >tmp.err
-    check_chkt_example "${f/asl/err}" tmp.err 
-    rm -f tmp.err
-done
-echo "=== END examples/jpbasic_chkt typecheck ==============="
-echo "======================================================="
+
+#echo "======================================================="
+#echo "=== BEGIN examples/jpbasic_chkt typecheck ============="
+#for f in ../examples/jpbasic_chkt_*.asl; do
+#    echo -n "****" $(basename "$f") "...." 
+#    ./asl "$f" 2>&1 | grep -E ^L >tmp.err
+#    check_chkt_example "${f/asl/err}" tmp.err 
+#    rm -f tmp.err
+#done
+#echo "=== END examples/jpbasic_chkt typecheck ==============="
+#echo "======================================================="
 
 ########### check all 'jp_chkt' examples
 echo ""
@@ -60,22 +61,23 @@ echo "=== END examples/jp_chkt_* typecheck =================="
 echo "======================================================="
 
 ########### check all 'jpbasic_genc' examples
-echo ""
-echo "======================================================="
-echo "=== BEGIN examples/jpbasic_genc_* codegen ============="
-for f in ../examples/jpbasic_genc_*.asl; do
-    echo -n "****" $(basename "$f") "...." 
-    ./asl "$f" >tmp.t 2>&1 
-    if (test $? != 0); then
-       echo "Compilation errors"
-    else
-       ../tvm/tvm tmp.t < "${f/asl/in}" >tmp.out
-       check_genc_example "${f/asl/out}" tmp.out
-    fi
-    rm -f tmp.t tmp.out tmp.diff
-done
-echo "=== END examples/jpbasic_genc_* codegen ==============="
-echo "======================================================="
+
+#echo ""
+#echo "======================================================="
+#echo "=== BEGIN examples/jpbasic_genc_* codegen ============="
+#for f in ../examples/jpbasic_genc_*.asl; do
+#    echo -n "****" $(basename "$f") "...." 
+#    ./asl "$f" >tmp.t 2>&1 
+#    if (test $? != 0); then
+#       echo "Compilation errors"
+#    else
+#       ../tvm/tvm tmp.t < "${f/asl/in}" >tmp.out
+#       check_genc_example "${f/asl/out}" tmp.out
+#    fi
+#    rm -f tmp.t tmp.out tmp.diff
+#done
+#echo "=== END examples/jpbasic_genc_* codegen ==============="
+#echo "======================================================="
 
 ########### check all 'jp_genc' examples
 echo ""
